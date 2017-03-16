@@ -1,0 +1,104 @@
+
+.wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    width: 100%
+}
+
+.wrapper .container {
+    max-width: 80rem
+}
+
+.wrapper>.container {
+    padding-bottom: 7.5rem;
+    padding-top: 7.5rem
+}
+
+.header+section {
+    border-top: 0
+}
+
+.header .container {
+    border-top: 0;
+    padding-bottom: 7.5rem;
+    padding-top: 7.5rem;
+    position: relative;
+    text-align: center
+}
+
+.navigation {
+    background: #F1F1F9;
+    border-bottom: .1rem solid #e1e0e9;
+    display: block;
+    height: 5.2rem;
+    left: 0;
+    max-width: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1
+}
+
+.navigation .container {
+    padding-bottom: 0;
+    padding-top: 0
+}
+
+.navigation .navigation-list {
+    list-style: none;
+    margin-bottom: 0;
+    margin-right: 5rem
+}
+
+@media (min-width:80rem) {
+    .navigation .navigation-list {
+        margin-right: 0
+    }
+}
+
+.navigation .navigation-item {
+    float: left;
+    margin-bottom: 0;
+    margin-left: 2.5rem;
+    position: relative
+}
+
+.navigation .title,
+.navigation .navigation-link {
+    display: inline;
+    font-size: 1.6rem;
+    line-height: 5.2rem;
+    padding: 0;
+    text-decoration: none
+}
+
+.navigation .title {
+    font-size: 2rem;
+    position: relative
+}
+
+.error {
+    color: #d33;
+}
+
+.success {
+    color: #1b1;
+}
+
+.progress {
+    border-radius: .4rem;
+    #background-color: #fafafa;
+    border: 1px solid #d1d1d1;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.progress-fill {
+    background-color: #9b4dca;
+    height: 25px;
+    overflow: hidden;
+}

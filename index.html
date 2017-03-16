@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="normalize.css"/>
     <link rel="stylesheet" href="milligram.min.css"/>
+    <link rel="stylesheet" href="locksmith.css"/>
 
     <script src="react.js"></script>
     <script src="react-dom.js"></script>
@@ -18,32 +19,6 @@
     <script type="text/babel" src="unseal.js"></script>
     <script type="text/babel" src="authenticate.js"></script>
     <script type="text/babel" src="secrets.js"></script>
-
-    <style>
-        .error {
-            color: #d33;
-        }
-
-        .success {
-            color: #1b1;
-        }
-
-        .progress {
-            border-radius: .4rem;
-            #background-color: #fafafa;
-            border: 1px solid #d1d1d1;
-            color: #fff;
-            text-align: center;
-            overflow: hidden;
-            padding: 3px;
-        }
-
-        .progress-fill {
-            background-color: #9b4dca;
-            height: 25px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body>
 
@@ -93,10 +68,7 @@
             return (
                 <nav className="navigation">
                     <section className="container">
-                        <a className="navigation-title" href="/">
-                            &nbsp;
-                            <h1 className="title">Locksmith</h1>
-                        </a>
+                        <h1 className="title">Locksmith</h1>
                         <NavigationOptions />
                     </section>
                 </nav>
