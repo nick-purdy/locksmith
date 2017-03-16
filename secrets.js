@@ -42,6 +42,13 @@ class Secrets extends React.Component {
         this.listSecrets()
     }
 
+
+    handleSecretEdit(path, event) {
+        alert("Editing: " + path + ", " + this.state.currentFolder)
+
+    }
+
+
     handleBreadCrumb(path) {
         this.setState({currentFolder: path})
         this.listSecrets()
@@ -54,7 +61,7 @@ class Secrets extends React.Component {
             for (let index in this.state.data.keys) {
                 const path = this.state.data.keys[index]
                 secrets.push(
-                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} />
+                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, path)} />
                             )
             }
         } else {
@@ -116,7 +123,6 @@ class SecretsBreadCrumb extends React.Component {
 
 class SecretsRow extends React.Component {
     render() {
-
         if (this.props.path.endsWith("/")) {
             return (
                     <tr>
@@ -127,7 +133,7 @@ class SecretsRow extends React.Component {
         } else {
             return (
                     <tr>
-                        <td><a onClick={this.props.onClick}>FILE: {this.props.path}</a></td>
+                        <td><a onClick={this.props.onEditClick}>FILE: {this.props.path}</a></td>
                         <td><a>edit</a> &nbsp; <a>delete</a></td>
                     </tr>
             )
