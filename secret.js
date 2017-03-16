@@ -11,10 +11,10 @@ class Secret extends React.Component {
         this.handleEditSecret = this.handleEditSecret.bind(this)
     }
 
-    handleEditSecret(path) {
+    handleEditSecret(path, event) {
         this.setState({
             view: "edit",
-            path: "secret/hello/world"
+            path: path
         })
     }
 
@@ -25,7 +25,7 @@ class Secret extends React.Component {
             )
         } else {
             return (
-                <SecretEdit path={this.state.path} onEditSecret={this.handleEditSecret} />
+                <SecretEdit path={this.state.path} />
             )
         }
     }

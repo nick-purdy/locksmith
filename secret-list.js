@@ -43,7 +43,7 @@ class SecretList extends React.Component {
 
 
     handleSecretEdit(path, event) {
-        this.props.onEditSecret(null, path)
+        this.props.onEditSecret(path)
     }
 
 
@@ -58,8 +58,9 @@ class SecretList extends React.Component {
         if (this.state && this.state.data && this.state.data.keys) {
             for (let index in this.state.data.keys) {
                 const path = this.state.data.keys[index]
+                const fullPath = this.state.currentFolder.join("/") + "/" + path
                 secrets.push(
-                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, path)} />
+                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, fullPath)} />
                             )
             }
         } else {
