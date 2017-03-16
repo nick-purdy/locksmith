@@ -9,11 +9,11 @@ class SecretList extends React.Component {
     }
 
     componentDidMount() {
-        this.listSecrets()
+        this.listSecrets(this.state.currentFolder)
     }
 
-    listSecrets() {
-        const path = "/v1/" + this.state.currentFolder.join("/") + "/"
+    listSecrets(newPath) {
+        const path = "/v1/" + newPath.join("/") + "/"
 
         $.ajax({
             url: path,
@@ -38,7 +38,7 @@ class SecretList extends React.Component {
         let newPath = this.state.currentFolder
         newPath.push(path.replace("/", ""))
         this.setState({currentFolder: newPath})
-        this.listSecrets()
+        this.listSecrets(newPath)
     }
 
 
@@ -49,7 +49,7 @@ class SecretList extends React.Component {
 
     handleBreadCrumb(path) {
         this.setState({currentFolder: path})
-        this.listSecrets()
+        this.listSecrets(path)
     }
 
     render() {
@@ -75,7 +75,7 @@ class SecretList extends React.Component {
         return (
             <section className="container" id="secrets">
                 <h5 className="title">Secrets</h5>
-                <SecretsBreadCrumb currentFolder={this.state.currentFolder} onClick={this.handleBreadCrumb.bind(this)} />
+                <BreadCrumb folder="true" folders={this.state.currentFolder} onClick={this.handleBreadCrumb.bind(this)} />
                 <table>
                     <thead>
                         <tr>
@@ -88,34 +88,6 @@ class SecretList extends React.Component {
                     </tbody>
                 </table>
             </section>
-        )
-    }
-}
-
-class SecretsBreadCrumb extends React.Component {
-    render() {
-
-        let folders = []
-
-        let fullPath = []
-        for (let index in this.props.currentFolder) {
-            const folder = this.props.currentFolder[index]
-            fullPath.push(folder)
-            const breadCrumbPath = fullPath.slice(0)
-
-            const innerParent = this;
-            const testFunction = function() {
-                innerParent.props.onClick.call(null, breadCrumbPath)
-            }
-            folders.push(
-                        <span>&nbsp;<a onClick={testFunction}>{folder}</a>&nbsp;&#47;</span>
-                        )
-        }
-
-        return (
-            <p>
-                <code> {folders} </code>
-            </p>
         )
     }
 }

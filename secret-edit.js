@@ -93,6 +93,10 @@ class SecretEdit extends React.Component {
         this.forceUpdate()
     }
 
+    handleBreadCrumb(path) {
+        this.props.onListSecret(path.join("/"))
+    }
+
     render() {
         let form = (<div>Loading...</div>)
         let rows = []
@@ -123,7 +127,7 @@ class SecretEdit extends React.Component {
         return (
             <section className="container" id="secrets">
                 <h5 className="title">Edit Secret</h5>
-                <p><code>{this.props.path}</code></p>
+                <BreadCrumb folders={this.props.path.split("/")} onClick={this.handleBreadCrumb.bind(this)} />
                 {form}
             </section>
         )

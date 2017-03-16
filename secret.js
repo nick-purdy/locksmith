@@ -9,11 +9,19 @@ class Secret extends React.Component {
         };
 
         this.handleEditSecret = this.handleEditSecret.bind(this)
+        this.handleListSecrets = this.handleListSecrets.bind(this)
     }
 
-    handleEditSecret(path, event) {
+    handleEditSecret(path) {
         this.setState({
             view: "edit",
+            path: path
+        })
+    }
+
+    handleListSecrets(path) {
+        this.setState({
+            view: "list",
             path: path
         })
     }
@@ -25,7 +33,7 @@ class Secret extends React.Component {
             )
         } else {
             return (
-                <SecretEdit path={this.state.path} />
+                <SecretEdit path={this.state.path} onListSecret={this.handleListSecrets} />
             )
         }
     }
