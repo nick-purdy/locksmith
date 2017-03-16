@@ -19,7 +19,9 @@
     <script type="text/babel" src="seal.js"></script>
     <script type="text/babel" src="unseal.js"></script>
     <script type="text/babel" src="authenticate.js"></script>
-    <script type="text/babel" src="secrets.js"></script>
+    <script type="text/babel" src="secret.js"></script>
+    <script type="text/babel" src="secret-list.js"></script>
+    <script type="text/babel" src="secret-edit.js"></script>
 </head>
 <body>
 
@@ -48,8 +50,8 @@
         render() {
             let mainComponent = ( <VaultStatus /> )
 
-            if (this.state.targetPage === "secrets") {
-                mainComponent = ( <Secrets /> )
+            if (this.state.targetPage === "secret") {
+                mainComponent = ( <Secret /> )
             } else if (this.state.targetPage === "authenticate") {
                 mainComponent = ( <Authenticate /> )
             }
