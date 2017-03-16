@@ -97,15 +97,25 @@ class SecretsRow extends React.Component {
         if (this.props.path.endsWith("/")) {
             return (
                     <tr>
-                        <td><a onClick={this.props.onClick}>FOLDER: {this.props.path}</a></td>
-                        <td><a>edit</a> &nbsp; <a>delete</a></td>
+                        <td>
+                            <a onClick={this.props.onClick}>
+                                <i className="fa fa-folder-o" aria-hidden="true"></i>
+                                <span>&nbsp;{this.props.path}</span>
+                            </a>
+                        </td>
+                        <td><a>delete</a></td>
                     </tr>
             )
         } else {
             return (
                     <tr>
-                        <td><a onClick={this.props.onEditClick}>FILE: {this.props.path}</a></td>
-                        <td><a>edit</a> &nbsp; <a>delete</a></td>
+                        <td>
+                            <a onClick={this.props.onEditClick}>
+                                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                <span>&nbsp;{this.props.path}</span>
+                            </a>
+                        </td>
+                        <td><a>delete</a></td>
                     </tr>
             )
         }
