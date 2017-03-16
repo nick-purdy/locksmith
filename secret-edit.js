@@ -52,6 +52,7 @@ class SecretEdit extends React.Component {
             data: JSON.stringify(requestData),
             success: function() {
                 console.info("Successfully saved")
+                this.handleCancel()
             },
             error: function(e) {
                 console.log(e);
@@ -68,8 +69,8 @@ class SecretEdit extends React.Component {
     }
 
     handleCancel() {
-        this.setState({data: null})
-        this.viewSecret();
+        let parentPath = this.props.path.substring(0, this.props.path.lastIndexOf("/"));
+        this.props.onListSecret(parentPath)
     }
 
     handleUpdateSecretInput(originalName, name, secret) {
