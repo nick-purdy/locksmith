@@ -33,20 +33,21 @@
     //let targetPage = "authenticate"
 
     class NavigationLink extends React.Component {
-
         constructor(props) {
             super(props)
-            this.handleOnClick = this.handleOnClick.bind(this, props.href);
-        }
 
-        handleOnClick(href) {
-            targetPage = href
+            let innerParent = this
+            this.state = {
+                onClick: function() {
+                    innerParent.props.onClick.call(null, props.href)
+                }
+            };
         }
 
         render() {
             return (
                 <li className="navigation-item">
-                    <a className="navigation-link" onClick={this.handleOnClick} data-popover>{this.props.title}</a>
+                    <a className="navigation-link" onClick={this.state.onClick} data-popover>{this.props.title}</a>
                 </li>
             )
         }
@@ -56,8 +57,8 @@
         render() {
             return (
                 <ul className="navigation-list float-right">
-                    <NavigationLink title="Authenticate" href="authenticate" />
-                    <NavigationLink title="Secrets" href="secrets" />
+                    <NavigationLink title="Authenticate" href="authenticate" onClick={this.props.onClick} />
+                    <NavigationLink title="Secrets" href="secrets" onClick={this.props.onClick} />
                 </ul>
             )
         }
@@ -69,7 +70,7 @@
                 <nav className="navigation">
                     <section className="container">
                         <h1 className="title">Locksmith</h1>
-                        <NavigationOptions />
+                        <NavigationOptions onClick={this.props.onClick} />
                     </section>
                 </nav>
             )
@@ -77,19 +78,32 @@
     }
 
     class Page extends React.Component {
-        render() {
+        constructor(props) {
+            super(props)
+            this.state = {targetPage: "status"};
 
+            this.handleChangeTargetPage = this.handleChangeTargetPage.bind(this);
+        }
+
+        handleChangeTargetPage(targetPage) {
+            this.setState({targetPage: targetPage})
+            this.forceUpdate()
+        }
+
+        render() {
             let mainComponent = ( <VaultStatus /> )
 
-            if (targetPage === "secrets") {
+            if (this.state.targetPage === "secrets") {
                 mainComponent = ( <Secrets /> )
-            } else if (targetPage === "authenticate") {
+            } else if (this.state.targetPage === "authenticate") {
                 mainComponent = ( <Authenticate /> )
             }
 
+            console.log(mainComponent)
+
             return (
                 <main className="wrapper">
-                    <Navigation />
+                    <Navigation  onClick={this.handleChangeTargetPage} />
                     {mainComponent}
                 </main>
             )
