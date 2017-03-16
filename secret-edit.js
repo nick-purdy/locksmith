@@ -7,6 +7,7 @@ class SecretEdit extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleUpdateSecretInput = this.handleUpdateSecretInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRemoveSecretRow = this.handleRemoveSecretRow.bind(this);
     }
 
     componentDidMount() {
@@ -87,6 +88,11 @@ class SecretEdit extends React.Component {
         this.setState({data: newData})
     }
 
+    handleRemoveSecretRow(name) {
+        delete this.state.data[name]
+        this.forceUpdate()
+    }
+
     render() {
         let form = (<div>Loading...</div>)
         let rows = []
@@ -95,7 +101,7 @@ class SecretEdit extends React.Component {
             for (var propertyName in this.state.data) {
                 if (this.state.data.hasOwnProperty(propertyName)) {
                     rows.push(
-                        <SecretEditRow key={propertyName + this.state.data[propertyName]} name={propertyName} secret={this.state.data[propertyName]} onUpdate={this.handleUpdateSecretInput} />
+                        <SecretEditRow key={propertyName + this.state.data[propertyName]} name={propertyName} secret={this.state.data[propertyName]} onUpdate={this.handleUpdateSecretInput} onRemove={this.handleRemoveSecretRow} />
                     )
                 }
             }
@@ -136,6 +142,7 @@ class SecretEditRow extends React.Component {
         this.handleChangeName = this.handleChangeName.bind(this)
         this.handleChangeSecret = this.handleChangeSecret.bind(this)
         this.handleOnBlur = this.handleOnBlur.bind(this)
+        this.handleOnRemove = this.handleOnRemove.bind(this)
     }
 
     handleChangeName(event) {
@@ -150,12 +157,17 @@ class SecretEditRow extends React.Component {
         this.props.onUpdate.call(null, this.state.originalName, this.state.name, this.state.secret)
     }
 
+    handleOnRemove(e) {
+        e.preventDefault();
+        this.props.onRemove.call(null, this.state.originalName)
+    }
+
     render() {
         return (
             <div className="row">
                 <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeName} placeholder="Secret Name" value={this.state.name} type="text" /></div>
                 <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.state.secret} type="text" /></div>
-                <div className="column"><a>remove</a></div>
+                <div className="column"><a onClick={this.handleOnRemove}>remove</a></div>
             </div>
         )
     }
