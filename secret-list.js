@@ -6,6 +6,8 @@ class SecretList extends React.Component {
         this.state = {
             currentFolder: props.path.split("/")
         };
+
+        this.handleSecretCreate = this.handleSecretCreate.bind(this);
     }
 
     componentDidMount() {
@@ -43,13 +45,17 @@ class SecretList extends React.Component {
 
 
     handleSecretEdit(path, event) {
-        this.props.onEditSecret(path)
+        this.props.onEditSecret(path, false)
     }
 
 
     handleBreadCrumb(path) {
         this.setState({currentFolder: path})
         this.listSecrets(path)
+    }
+
+    handleSecretCreate() {
+        this.props.onEditSecret(this.state.currentFolder.join("/"), true)
     }
 
     render() {
@@ -87,6 +93,9 @@ class SecretList extends React.Component {
                         {secrets}
                     </tbody>
                 </table>
+                <div>
+                    <a onClick={this.handleSecretCreate}>Create</a>
+                </div>
             </section>
         )
     }

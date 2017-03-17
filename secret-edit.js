@@ -1,21 +1,29 @@
 class SecretEdit extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {};
+        this.state = {
+            path: this.props.path,
+            pathName: ""
+        };
 
         this.handleAddNewSecretRow = this.handleAddNewSecretRow.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleUpdateSecretInput = this.handleUpdateSecretInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRemoveSecretRow = this.handleRemoveSecretRow.bind(this);
+        this.handleChangePath = this.handleChangePath.bind(this);
     }
 
     componentDidMount() {
-        this.viewSecret()
+        if (!this.props.newSecret) {
+            this.viewSecret()
+        } else {
+            this.setState({data: {newSecretName: "newSecretPath"}})
+        }
     }
 
     viewSecret() {
-        const path = "/v1/" + this.props.path
+        const path = "/v1/" + this.state.path
 
         $.ajax({
             url: path,
@@ -39,7 +47,11 @@ class SecretEdit extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const path = "/v1/" + this.props.path
+        let path = "/v1/" + this.state.path
+        if (this.state.pathName.length > 1) {
+            path += "/" + this.state.pathName
+        }
+
         const requestData = this.state.data
 
         $.ajax({
@@ -69,7 +81,10 @@ class SecretEdit extends React.Component {
     }
 
     handleCancel() {
-        let parentPath = this.props.path.substring(0, this.props.path.lastIndexOf("/"));
+        let parentPath = this.state.path.substring(0, this.state.path.lastIndexOf("/"));
+        if (this.props.newSecret) {
+            parentPath = this.state.path
+        }
         this.props.onListSecret(parentPath)
     }
 
@@ -98,6 +113,10 @@ class SecretEdit extends React.Component {
         this.props.onListSecret(path.join("/"))
     }
 
+    handleChangePath(event) {
+        this.setState({pathName: event.target.value});
+    }
+
     render() {
         let form = (<div>Loading...</div>)
         let rows = []
@@ -111,10 +130,22 @@ class SecretEdit extends React.Component {
                 }
             }
 
+            let pathName = (<div></div>)
+            if (this.props.newSecret) {
+                pathName = (
+                    <div>
+                        <label>Path Name</label>
+                        <input onChange={this.handleChangePath} placeholder="Secret Path" value={this.state.pathName} type="text" />
+                        <label>Secrets</label>
+                    </div>
+                )
+            }
+
             form = (
                 <form onSubmit={this.handleSubmit}>
                     <fieldset>
                         <div className="container">
+                            {pathName}
                             {rows}
                             <p><a onClick={this.handleAddNewSecretRow}>Add New</a></p>
                         </div>
@@ -125,10 +156,15 @@ class SecretEdit extends React.Component {
             )
         }
 
+        let breadCrumbPath = this.state.path
+        if (this.props.newSecret) {
+            breadCrumbPath += "/New Secret"
+        }
+
         return (
             <section className="container" id="secrets">
                 <h5 className="title">Edit Secret</h5>
-                <BreadCrumb folders={this.props.path.split("/")} onClick={this.handleBreadCrumb.bind(this)} />
+                <BreadCrumb folders={(breadCrumbPath).split("/")} onClick={this.handleBreadCrumb.bind(this)} />
                 {form}
             </section>
         )
