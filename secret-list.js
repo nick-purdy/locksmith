@@ -36,6 +36,26 @@ class SecretList extends React.Component {
         });
     }
 
+    deleteSecrets(deletePath) {
+        const path = "/v1/" + deletePath
+
+        $.ajax({
+            url: path,
+            context: this,
+            headers: {
+                "X-Vault-Token": globalLoginToken
+            },
+            type: 'DELETE',
+            success: function() {
+                this.listSecrets(this.state.currentFolder)
+            },
+            error: function(e) {
+                console.log(e);
+                console.log(e.responseJSON.errors);
+            },
+        });
+    }
+
     handleSecretExpansion(path, event) {
         let newPath = this.state.currentFolder
         newPath.push(path.replace("/", ""))
@@ -43,11 +63,13 @@ class SecretList extends React.Component {
         this.listSecrets(newPath)
     }
 
-
     handleSecretEdit(path, event) {
         this.props.onEditSecret(path, false)
     }
 
+    handleSecretDelete(path, event) {
+        this.deleteSecrets(path)
+    }
 
     handleBreadCrumb(path) {
         this.setState({currentFolder: path})
@@ -66,7 +88,7 @@ class SecretList extends React.Component {
                 const path = this.state.data.keys[index]
                 const fullPath = this.state.currentFolder.join("/") + "/" + path
                 secrets.push(
-                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, fullPath)} />
+                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, fullPath)} onDeleteClick={this.handleSecretDelete.bind(this, fullPath)} />
                             )
             }
         } else {
@@ -124,7 +146,7 @@ class SecretsRow extends React.Component {
                                 <span>&nbsp;{this.props.path}</span>
                             </a>
                         </td>
-                        <td><a>delete</a></td>
+                        <td><a onClick={this.props.onDeleteClick}>delete</a></td>
                     </tr>
             )
         }
