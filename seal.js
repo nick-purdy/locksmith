@@ -18,8 +18,6 @@ class Seal extends React.Component {
     handleSeal(event) {
         event.preventDefault();
 
-        const requestData = { value: this.state.key }
-
         $.ajax({
             url: '/v1/sys/seal',
             context: this,
