@@ -18,10 +18,12 @@
     <script type="text/babel" src="navigation.js"></script>
     <script type="text/babel" src="progress.js"></script>
     <script type="text/babel" src="bread-crumbs.js"></script>
-    <script type="text/babel" src="vault-status.js"></script>
+    <script src="status.js"></script>
     <script type="text/babel" src="seal.js"></script>
     <script type="text/babel" src="unseal.js"></script>
     <script type="text/babel" src="authenticate.js"></script>
+    <script type="text/babel" src="authenticate-token.js"></script>
+    <script type="text/babel" src="authenticate-ldap.js"></script>
     <script type="text/babel" src="secret.js"></script>
     <script type="text/babel" src="secret-list.js"></script>
     <script type="text/babel" src="secret-edit.js"></script>
@@ -39,10 +41,24 @@
     class Page extends React.Component {
         constructor(props) {
             super(props)
-            this.state = {targetPage: "status"};
+            this.state = {targetPage: "loading"};
 
             this.changeToMainPage = this.changeToMainPage.bind(this);
             rootPage = this
+        }
+
+        componentDidMount() {
+            console.log(status.registerSealStatusWatcher)
+            status.registerSealStatusWatcher(this, function(result) {
+                this.setState(result)
+                if (result.sealed) {
+                    this.changeToMainPage("unseal")
+                } else {
+                    this.changeToMainPage("authenticate")
+                }
+
+                status.deregisterSealStatusWatcher(this)
+            })
         }
 
         changeToMainPage(targetPage) {
@@ -51,12 +67,16 @@
         }
 
         render() {
-            let mainComponent = ( <VaultStatus /> )
+            let mainComponent = ( <section className="container" id="status"><h5>Loading vault status...</h5></section> )
 
             if (this.state.targetPage === "secret") {
                 mainComponent = ( <Secret /> )
             } else if (this.state.targetPage === "authenticate") {
                 mainComponent = ( <Authenticate /> )
+            } else if (this.state.targetPage === "unseal") {
+                mainComponent = ( <Unseal sealed={this.state.sealed} progress={this.state.progress} threshold={this.state.t} /> )
+            } else if (this.state.targetPage === "seal") {
+                mainComponent = ( <Seal /> )
             }
 
             console.log(mainComponent)

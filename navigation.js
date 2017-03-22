@@ -15,7 +15,6 @@ class NavigationOptions extends React.Component {
     render() {
         return (
             <ul className="navigation-list float-right">
-                <NavigationLink title="Authenticate" href="authenticate" />
                 <NavigationLink title="Secrets" href="secret" />
             </ul>
         )

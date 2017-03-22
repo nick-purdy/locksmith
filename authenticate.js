@@ -3,47 +3,33 @@ class Authenticate extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            token: "",
-            success: ""
+            mechanism: "token"
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAuthenticated = this.handleAuthenticated.bind(this);
     }
 
     handleChange(event) {
-        this.setState({token: event.target.value});
+        console.log(event.target.value)
+        this.setState({mechanism: event.target.value})
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        globalLoginToken = this.state.token
-        this.state.success = "Successfully logged in"
-        this.forceUpdate()
+    handleAuthenticated() {
+        rootPage.changeToMainPage.call(rootPage, "secret")
     }
 
     render() {
-
-        let content = (
-            <form onSubmit={this.handleSubmit}>
-                <label>Token</label>
-                <input value={this.state.token} onChange={this.handleChange} placeholder="Your token. Input will be hidden..." id="tokenField" type="password" />
-                <input className="button-primary" value="Login" type="submit" />
-            </form>
-        )
-
-        if (this.state.success) {
-            content = (
-                <div className="success">
-                    {this.state.success}
-                </div>
-            )
-        }
-
         return (
             <section className="container" id="authenticate">
                 <h5 className="title">Authenticate</h5>
-                {content}
+                <label>Authentication mechanism</label>
+                <select onChange={this.handleChange} value={this.state.mechanism}>
+                    <option value="token">Token</option>
+                    <option value="ldap">LDAP</option>
+                </select>
+
+                <AuthenticateToken onAuthenticated={this.handleAuthenticated} />
             </section>
         )
     }

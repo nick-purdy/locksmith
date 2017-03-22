@@ -38,7 +38,8 @@ class Seal extends React.Component {
 
     render() {
         return (
-            <div>
+            <section className="container" id="seal">
+                <h5 className="title">Seal</h5>
                 <blockquote>
                     <p><em>Vault is unsealed.</em></p>
                 </blockquote>
@@ -50,7 +51,7 @@ class Seal extends React.Component {
                     <input value={this.state.key} onChange={this.handleChange} placeholder="Your Seal Token. Input will be hidden..." id="unsealTokenField" type="password" />
                     <input className="button-primary" value="Seal" type="submit" />
                 </form>
-            </div>
+            </section>
         )
     }
 }

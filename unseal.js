@@ -3,7 +3,7 @@ class Unseal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sealed: false,
+            sealed: props.sealed,
             progress: props.progress,
             t: props.threshold,
             key: ''
@@ -32,6 +32,10 @@ class Unseal extends React.Component {
                     success: "Successfully entered unseal token",
                     key: ""
                 })
+
+                if (!result.sealed) {
+                    rootPage.changeToMainPage.call(rootPage, "authenticate")
+                }
             },
             error: function(e) {
                 console.log(e);
@@ -73,12 +77,15 @@ class Unseal extends React.Component {
     }
 
     render() {
-        const progressPercent = (this.state.progress / this.state.t) * 100
-        const cssWidth = {width: progressPercent + "%"}
-        console.info(cssWidth)
+        let currentProgress = this.state.t
+        if (this.state.sealed) {
+            currentProgress = this.state.progress
+        }
 
         return (
-            <div>
+            <section className="container" id="unseal">
+                <h5 className="title">Unseal</h5>
+
                 <blockquote>
                     <p><em>Vault is currently sealed. To unseal please enter your unseal tokens.</em></p>
                 </blockquote>
@@ -92,10 +99,9 @@ class Unseal extends React.Component {
                     <button className="button button-outline float-right" onClick={this.handleReset}>Reset</button>
                 </form>
 
-
                 <label>Progress</label>
-                <Progress progress={this.state.progress} total={this.state.t} />
-            </div>
+                <Progress progress={currentProgress} total={this.state.t} />
+            </section>
         )
     }
 }
