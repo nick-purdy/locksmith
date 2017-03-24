@@ -27,6 +27,9 @@
     <script type="text/babel" src="secret.js"></script>
     <script type="text/babel" src="secret-list.js"></script>
     <script type="text/babel" src="secret-edit.js"></script>
+    <script type="text/babel" src="secret-backend.js"></script>
+
+    <script src="js/service/secret-backend-service.js"></script>
 </head>
 <body>
 
@@ -34,7 +37,7 @@
 
 <script type="text/babel">
 
-    let globalLoginToken = "b1174c48-583a-88fe-5d5a-1f3cd46e5821"
+    let globalLoginToken = ""
 
     let rootPage = null
 
@@ -77,6 +80,8 @@
                 mainComponent = ( <Unseal sealed={this.state.sealed} progress={this.state.progress} threshold={this.state.t} /> )
             } else if (this.state.targetPage === "seal") {
                 mainComponent = ( <Seal /> )
+            } else if (this.state.targetPage === "secret-backend") {
+                mainComponent = ( <SecretBackend /> )
             }
 
             console.log(mainComponent)
