@@ -27,9 +27,11 @@
     <script type="text/babel" src="secret.js"></script>
     <script type="text/babel" src="secret-list.js"></script>
     <script type="text/babel" src="secret-edit.js"></script>
+    <script type="text/babel" src="audit-backend.js"></script>
     <script type="text/babel" src="auth-backend.js"></script>
     <script type="text/babel" src="secret-backend.js"></script>
 
+    <script src="js/service/audit-backend-service.js"></script>
     <script src="js/service/auth-backend-service.js"></script>
     <script src="js/service/secret-backend-service.js"></script>
 </head>
@@ -86,6 +88,8 @@
                 mainComponent = ( <SecretBackend /> )
             } else if (this.state.targetPage === "auth-backend") {
                 mainComponent = ( <AuthBackend /> )
+            } else if (this.state.targetPage === "audit-backend") {
+                mainComponent = ( <AuditBackend /> )
             }
 
             console.log(mainComponent)
