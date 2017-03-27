@@ -21,7 +21,6 @@ class SecretBackendService {
 
     static mount(context, callback, path, type, description, default_lease_ttl, max_lease_ttl, force_no_cache) {
         const mountParams = {
-            path: path,
             type: type,
             description: description,
             config: {
@@ -32,7 +31,7 @@ class SecretBackendService {
         }
 
         $.ajax({
-            url: "/v1/sys/mounts",
+            url: "/v1/sys/mounts/" + path,
             context: context,
             type: 'POST',
             headers: {
