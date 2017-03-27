@@ -83,13 +83,21 @@ class SecretList extends React.Component {
     render() {
         let secrets = []
 
-        if (this.state && this.state.data && this.state.data.keys) {
-            for (let index in this.state.data.keys) {
-                const path = this.state.data.keys[index]
-                const fullPath = this.state.currentFolder.join("/") + "/" + path
+        if (this.state && this.state.data) {
+            if (this.state.data.keys) {
+                for (let index in this.state.data.keys) {
+                    const path = this.state.data.keys[index]
+                    const fullPath = this.state.currentFolder.join("/") + "/" + path
+                    secrets.push(
+                                <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, fullPath)} onDeleteClick={this.handleSecretDelete.bind(this, fullPath)} />
+                                )
+                }
+            } else {
                 secrets.push(
-                            <SecretsRow key={path} path={path} onClick={this.handleSecretExpansion.bind(this, path)} onEditClick={this.handleSecretEdit.bind(this, fullPath)} onDeleteClick={this.handleSecretDelete.bind(this, fullPath)} />
-                            )
+                    <tr>
+                        <td colSpan="2">No secrets have been written.</td>
+                    </tr>
+                )
             }
         } else {
             secrets.push(
