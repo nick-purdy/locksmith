@@ -50,22 +50,23 @@ class SecretBackendService {
     }
 
     static read(context, callback, path) {
-       $.ajax({
-           url: "/v1/sys/mounts/" + path + "/tune",
-           context: context,
-           type: 'GET',
-           headers: {
-               "X-Vault-Token": globalLoginToken
-           },
-           success: function(result) {
-               callback.call(context, result)
-           },
-           error: function(e) {
-               console.log(e);
-               console.log(e.responseJSON.errors);
-           },
-       });
-   }
+        $.ajax({
+            url: "/v1/sys/mounts/" + path + "/tune",
+            context: context,
+            type: 'GET',
+            headers: {
+                "X-Vault-Token": globalLoginToken
+            },
+            success: function(result) {
+                callback.call(context, result)
+            },
+            error: function(e) {
+                console.log(e);
+                console.log(e.responseJSON.errors);
+            }
+        });
+    }
+
     static tune(context, callback, path, default_lease_ttl, max_lease_ttl) {
         const tuneParams = {
             default_lease_ttl: default_lease_ttl,
@@ -88,7 +89,7 @@ class SecretBackendService {
                 console.log(e.responseJSON.errors);
             },
         });
-   }
+    }
 
     static unmount(context, callback, path) {
         $.ajax({
@@ -106,5 +107,5 @@ class SecretBackendService {
                 console.log(e.responseJSON.errors);
             },
         });
-  }
+    }
 }
