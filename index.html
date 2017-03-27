@@ -27,8 +27,10 @@
     <script type="text/babel" src="secret.js"></script>
     <script type="text/babel" src="secret-list.js"></script>
     <script type="text/babel" src="secret-edit.js"></script>
+    <script type="text/babel" src="auth-backend.js"></script>
     <script type="text/babel" src="secret-backend.js"></script>
 
+    <script src="js/service/auth-backend-service.js"></script>
     <script src="js/service/secret-backend-service.js"></script>
 </head>
 <body>
@@ -82,6 +84,8 @@
                 mainComponent = ( <Seal /> )
             } else if (this.state.targetPage === "secret-backend") {
                 mainComponent = ( <SecretBackend /> )
+            } else if (this.state.targetPage === "auth-backend") {
+                mainComponent = ( <AuthBackend /> )
             }
 
             console.log(mainComponent)
