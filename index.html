@@ -30,6 +30,7 @@
     <script type="text/babel" src="audit-backend.js"></script>
     <script type="text/babel" src="auth-backend.js"></script>
     <script type="text/babel" src="secret-backend.js"></script>
+    <script type="text/babel" src="config.js"></script>
 
     <script src="js/service/audit-backend-service.js"></script>
     <script src="js/service/auth-backend-service.js"></script>
@@ -80,6 +81,8 @@
                 mainComponent = ( <Secret /> )
             } else if (this.state.targetPage === "authenticate") {
                 mainComponent = ( <Authenticate /> )
+            } else if (this.state.targetPage === "config") {
+                mainComponent = ( <Config /> )
             } else if (this.state.targetPage === "unseal") {
                 mainComponent = ( <Unseal sealed={this.state.sealed} progress={this.state.progress} threshold={this.state.t} /> )
             } else if (this.state.targetPage === "seal") {
