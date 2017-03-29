@@ -4,7 +4,7 @@ class Navigation extends React.Component {
             <nav className="navigation">
                 <section className="container">
                     <h1 className="title">Locksmith</h1>
-                    <NavigationOptions />
+                    <NavigationOptions authenticated={this.props.authenticated} />
                 </section>
             </nav>
         )
@@ -13,10 +13,18 @@ class Navigation extends React.Component {
 
 class NavigationOptions extends React.Component {
     render() {
+
+        if (this.props.authenticated) {
+            return (
+                <ul className="navigation-list float-right">
+                    <NavigationLink title="Secrets" href="secret" />
+                    <NavigationLink title="Config" href="config" />
+                </ul>
+            )
+        }
+
         return (
             <ul className="navigation-list float-right">
-                <NavigationLink title="Secrets" href="secret" />
-                <NavigationLink title="Config" href="config" />
             </ul>
         )
     }

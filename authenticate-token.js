@@ -28,7 +28,7 @@ class AuthenticateToken extends React.Component {
             type: 'GET',
             success: function(result) {
                 console.info(result)
-                globalLoginToken = this.state.token
+                rootPage.setGlobalLoginToken(this.state.token)
                 this.props.onAuthenticated()
             },
             error: function(e) {

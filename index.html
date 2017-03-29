@@ -49,7 +49,10 @@
     class Page extends React.Component {
         constructor(props) {
             super(props)
-            this.state = {targetPage: "loading"};
+            this.state = {
+                targetPage: "loading",
+                authenticated: false
+            }
 
             this.changeToMainPage = this.changeToMainPage.bind(this);
             rootPage = this
@@ -67,6 +70,11 @@
 
                 status.deregisterSealStatusWatcher(this)
             })
+        }
+
+        setGlobalLoginToken(glt) {
+            globalLoginToken = glt
+            this.setState({authenticated: true})
         }
 
         changeToMainPage(targetPage) {
@@ -99,7 +107,7 @@
 
             return (
                 <main className="wrapper">
-                    <Navigation />
+                    <Navigation authenticated={this.state.authenticated} />
                     {mainComponent}
                 </main>
             )
