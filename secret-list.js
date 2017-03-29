@@ -94,14 +94,14 @@ class SecretList extends React.Component {
                 }
             } else {
                 secrets.push(
-                    <tr>
+                    <tr key="no-secrets">
                         <td colSpan="2">No secrets have been written.</td>
                     </tr>
                 )
             }
         } else {
             secrets.push(
-                        <tr>
+                        <tr key="loading">
                             <td>Loading...</td>
                             <td><a>view</a> &nbsp; <a>edit</a> &nbsp; <a>delete</a></td>
                         </tr>

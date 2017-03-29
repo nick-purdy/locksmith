@@ -19,16 +19,16 @@ class BreadCrumb extends React.Component {
             if (index == (this.props.folders.length - 1)) {
                 if (!this.props.folder) {
                     folders.push(
-                                <span>&nbsp;{folder}</span>
+                                <span key={fullPath}>&nbsp;{folder}</span>
                     )
                 } else {
                     folders.push(
-                                <span>&nbsp;{folder}&nbsp;&#47;</span>
+                                <span key={fullPath}>&nbsp;{folder}&nbsp;&#47;</span>
                     )
                 }
             } else {
                 folders.push(
-                            <span>&nbsp;<a onClick={clickFunction}>{folder}</a>&nbsp;&#47;</span>
+                            <span key={fullPath}>&nbsp;<a onClick={clickFunction}>{folder}</a>&nbsp;&#47;</span>
                             )
             }
         }
