@@ -8,32 +8,25 @@ class Seal extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSeal = this.handleSeal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         this.setState({key: event.target.value});
     }
 
-    handleSeal(event) {
+    handleSubmit(event) {
         event.preventDefault();
 
-        $.ajax({
-            url: '/v1/sys/seal',
-            context: this,
-            headers: {
-                "X-Vault-Token": this.state.key
-            },
-            type: 'PUT',
-            success: function(result) {
-                console.info(result)
+        SealService.seal(
+            this,
+            function(result) {
                 this.setState(result)
+                rootPage.changeToMainPage.call(rootPage, "unseal")
             },
-            error: function(e) {
-                console.log(e);
-                this.setState({errors: e.responseJSON.errors});
-            },
-        });
+            function(errors) { this.setState({errors: errors}); },
+            this.state.key
+        )
     }
 
     render() {
@@ -44,7 +37,7 @@ class Seal extends React.Component {
                     <p><em>Vault is unsealed.</em></p>
                 </blockquote>
 
-                <form onSubmit={this.handleSeal}>
+                <form onSubmit={this.handleSubmit}>
                     <label>Token (must have <code>root</code> or <code>sudo</code> capability)</label>
                     <div className="error">{this.state.errors}</div>
                     <div className="success">{this.state.success}</div>

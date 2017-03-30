@@ -14,62 +14,47 @@ class Unseal extends React.Component {
         this.handleReset = this.handleReset.bind(this);
     }
 
+    successfulUnsealToken(result) {
+        this.setState(result)
+        this.setState({
+            success: "Successfully entered unseal token",
+            key: ""
+        })
+
+        if (!result.sealed) {
+            rootPage.changeToMainPage.call(rootPage, "authenticate")
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         this.setState({errors: "", success: ""});
 
-        const requestData = { key: this.state.key }
-
-        $.ajax({
-            url: '/v1/sys/unseal',
-            context: this,
-            data: JSON.stringify(requestData),
-            type: 'PUT',
-            success: function(result) {
-                console.info(result)
-                this.setState(result)
-                this.setState({
-                    success: "Successfully entered unseal token",
-                    key: ""
-                })
-
-                if (!result.sealed) {
-                    rootPage.changeToMainPage.call(rootPage, "authenticate")
-                }
-            },
-            error: function(e) {
-                console.log(e);
-                console.log(e.responseJSON.errors);
-                this.setState({errors: e.responseJSON.errors});
-            },
-        });
+        SealService.unseal(
+            this,
+            this.successfulUnsealToken,
+            function(errors) { this.setState({errors: errors}); },
+            this.state.key
+        )
     }
 
     handleReset(e) {
         e.preventDefault();
         this.setState({errors: "", success: ""});
 
-        const requestData = { reset: true }
-
-        $.ajax({
-            url: '/v1/sys/unseal',
-            context: this,
-            data: JSON.stringify(requestData),
-            type: 'PUT',
-            success: function(result) {
-                console.info(result)
+        SealService.reset(
+            this,
+            function(result) {
                 this.setState(result)
                 this.setState({
                     success: "Successfully reset unseal attempt",
                     key: ""
                 })
+
             },
-            error: function(e) {
-                console.log(e);
-                console.log(e.responseJSON.errors);
-                this.setState({errors: e.responseJSON.errors});
-            },
-        });
+            function(errors) { this.setState({errors: errors}); },
+            this.state.key
+        )
     }
 
     handleChange(event) {
