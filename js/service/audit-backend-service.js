@@ -19,7 +19,7 @@ class AuditBackendService {
         });
     }
 
-    static mount(context, callback, path, type, description, options) {
+    static mount(context, callback, failCallback, path, type, description, options) {
         const mountParams = {
             type: type,
             description: description,
@@ -38,8 +38,9 @@ class AuditBackendService {
                 callback.call(context, result)
             },
             error: function(e) {
-                console.log(e);
-                console.log(e.responseJSON.errors);
+                console.log(e)
+                console.log(e.responseJSON.errors)
+                failCallback.call(context, e.responseJSON.errors)
             },
         });
     }

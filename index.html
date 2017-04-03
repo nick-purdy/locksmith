@@ -28,6 +28,8 @@
     <script type="text/babel" src="secret-list.js"></script>
     <script type="text/babel" src="secret-edit.js"></script>
     <script type="text/babel" src="audit-backend.js"></script>
+    <script type="text/babel" src="audit-backend-list.js"></script>
+    <script type="text/babel" src="audit-backend-mount.js"></script>
     <script type="text/babel" src="auth-backend.js"></script>
     <script type="text/babel" src="secret-backend.js"></script>
     <script type="text/babel" src="config.js"></script>
@@ -66,7 +68,7 @@
                 if (result.sealed) {
                     this.changeToMainPage("unseal")
                 } else {
-                    this.changeToMainPage("authenticate")
+                    this.changeToMainPage("audit-backend")
                 }
 
                 status.deregisterSealStatusWatcher(this)
