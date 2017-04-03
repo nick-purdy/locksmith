@@ -18,7 +18,7 @@ class AuthBackend extends React.Component {
     render() {
         let backends = []
 
-        if (this.state && this.state.data && this.state.data) {
+        if (this.state && this.state.data) {
             for (var propertyName in this.state.data) {
                 if (this.state.data.hasOwnProperty(propertyName)) {
                     const backend = this.state.data[propertyName]

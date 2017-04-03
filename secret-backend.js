@@ -18,7 +18,7 @@ class SecretBackend extends React.Component {
     render() {
         let backends = []
 
-        if (this.state && this.state.data && this.state.data) {
+        if (this.state && this.state.data) {
             for (let index in this.state.data) {
                 const backend = this.state.data[index]
                 backends.push(
