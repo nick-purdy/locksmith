@@ -33,11 +33,13 @@
     <script type="text/babel" src="auth-backend.js"></script>
     <script type="text/babel" src="secret-backend.js"></script>
     <script type="text/babel" src="config.js"></script>
+    <script type="text/babel" src="policy.js"></script>
 
     <script src="js/service/audit-backend-service.js"></script>
     <script src="js/service/auth-backend-service.js"></script>
     <script src="js/service/secret-backend-service.js"></script>
     <script src="js/service/seal-service.js"></script>
+    <script src="js/service/policy-service.js"></script>
 </head>
 <body>
 
@@ -68,7 +70,7 @@
                 if (result.sealed) {
                     this.changeToMainPage("unseal")
                 } else {
-                    this.changeToMainPage("audit-backend")
+                    this.changeToMainPage("authenticate")
                 }
 
                 status.deregisterSealStatusWatcher(this)
@@ -104,6 +106,8 @@
                 mainComponent = ( <AuthBackend /> )
             } else if (this.state.targetPage === "audit-backend") {
                 mainComponent = ( <AuditBackend /> )
+            } else if (this.state.targetPage === "policy") {
+                mainComponent = ( <Policy /> )
             }
 
             console.log(mainComponent)
