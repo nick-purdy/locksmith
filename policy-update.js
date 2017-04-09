@@ -54,7 +54,11 @@ class PolicyUpdate extends React.Component {
 
     render() {
         let title = (
-            <h5 className="title">Update Policy</h5>
+            <div>
+                <h5 className="title">Update Policy</h5>
+                <label>Name</label>
+                <p>{this.state.name}</p>
+            </div>
         )
         if (!this.props.policy) {
             title = (
@@ -71,6 +75,7 @@ class PolicyUpdate extends React.Component {
 
                 <form onSubmit={this.handleSubmit}>
 
+                    <label>Rules</label>
                     <div className="error">{this.state.errors}</div>
                     <textarea value={this.state.rules} onChange={this.handleRulesChange} placeholder="rules json..." rows="20"></textarea>
 
