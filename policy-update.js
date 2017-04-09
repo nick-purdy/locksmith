@@ -4,11 +4,11 @@ class PolicyUpdate extends React.Component {
         super(props)
 
         this.state = {
-            json: "",
+            rules: "",
             name: ""
         }
 
-        this.handleJsonChange = this.handleJsonChange.bind(this)
+        this.handleRulesChange = this.handleRulesChange.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -22,14 +22,15 @@ class PolicyUpdate extends React.Component {
     onReadPolicy(results) {
         console.log(results.data)
         this.setState(results)
+
     }
 
     handleNameChange(event) {
         this.setState({name: event.target.value})
     }
 
-    handleJsonChange(event) {
-        this.setState({json: event.target.value});
+    handleRulesChange(event) {
+        this.setState({rules: event.target.value});
     }
 
     handleSubmit(e) {
@@ -70,7 +71,7 @@ class PolicyUpdate extends React.Component {
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="error">{this.state.errors}</div>
-                    <textarea value={this.state.json} onChange={this.handleJsonChange} placeholder="json..."></textarea>
+                    <textarea value={this.state.rules} onChange={this.handleRulesChange} placeholder="rules json..."></textarea>
 
                     <input className="button-primary" value="Save" type="submit" />
                     <button className="button button-outline float-right" onClick={this.props.onList}>Cancel</button>
