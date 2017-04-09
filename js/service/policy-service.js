@@ -37,21 +37,19 @@ class PolicyService {
         });
     }
 
-    static createOrUpdate(context, callback, failCallback, policy, type, description, options) {
-        const mountParams = {
-            type: type,
-            description: description,
-            options: options
+    static createOrUpdate(context, callback, failCallback, name, rules) {
+        const policyParams = {
+            rules: rules
         }
 
         $.ajax({
-            url: "/v1/sys/policy/" + policy,
+            url: "/v1/sys/policy/" + name,
             context: context,
             type: 'POST',
             headers: {
                 "X-Vault-Token": globalLoginToken
             },
-            data: JSON.stringify(mountParams),
+            data: JSON.stringify(policyParams),
             success: function(result) {
                 callback.call(context, result)
             },

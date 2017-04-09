@@ -22,7 +22,6 @@ class PolicyUpdate extends React.Component {
     onReadPolicy(results) {
         console.log(results.data)
         this.setState(results)
-
     }
 
     handleNameChange(event) {
@@ -36,17 +35,19 @@ class PolicyUpdate extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
 
-        PolicyService.update(this,
+        PolicyService.createOrUpdate(this,
             this.onUpdatePolicy,
-            this.onFailToUpdatePolicy
+            this.onFailToUpdatePolicy,
+            this.state.name,
+            this.state.rules
         )
     }
 
-    onMountedBackend() {
-        this.props.handleList.call()
+    onUpdatePolicy() {
+        this.props.onList.call()
     }
 
-    onFailToMountBackend(message) {
+    onFailToUpdatePolicy(message) {
         this.setState({errors: message})
     }
 
@@ -71,7 +72,7 @@ class PolicyUpdate extends React.Component {
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="error">{this.state.errors}</div>
-                    <textarea value={this.state.rules} onChange={this.handleRulesChange} placeholder="rules json..."></textarea>
+                    <textarea value={this.state.rules} onChange={this.handleRulesChange} placeholder="rules json..." rows="20"></textarea>
 
                     <input className="button-primary" value="Save" type="submit" />
                     <button className="button button-outline float-right" onClick={this.props.onList}>Cancel</button>
