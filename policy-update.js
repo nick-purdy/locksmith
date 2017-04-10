@@ -64,6 +64,7 @@ class PolicyUpdate extends React.Component {
             title = (
                 <div>
                     <h5 className="title">Create Policy</h5>
+                    <label>Name</label>
                     <input value={this.state.name} onChange={this.handleNameChange} placeholder="Policy name" type="text" />
                 </div>
             )

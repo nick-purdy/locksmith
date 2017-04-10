@@ -5,6 +5,7 @@ class PolicyList extends React.Component {
 
         this.state = {}
         this.onCreate = this.onCreate.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
 
     componentDidMount() {
@@ -20,15 +21,27 @@ class PolicyList extends React.Component {
         this.props.onUpdate.call(null, "")
     }
 
+    handleDelete(policy) {
+        console.log("deleting: " + policy)
+        PolicyService.remove(this, this.onDeleted, policy)
+    }
+
+    onDeleted() {
+        PolicyService.list(this, this.onListPolicies)
+    }
+
     render() {
         let policies = []
 
         if (this.state && this.state.data) {
+            const innerParent = this
             for (var i in this.state.data.policies) {
                 const policy = this.state.data.policies[i]
-                console.log(policy)
+                const deleteFunc = function() {
+                    innerParent.handleDelete.call(null, policy)
+                }
                 policies.push(
-                    <PolicyRow key={policy} name={policy} onUpdate={this.props.onUpdate} />
+                    <PolicyRow key={policy} name={policy} onUpdate={this.props.onUpdate} onDelete={deleteFunc} />
                 )
             }
         } else {

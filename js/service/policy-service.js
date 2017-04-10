@@ -63,7 +63,7 @@ class PolicyService {
 
     static remove(context, callback, policy) {
         $.ajax({
-            url: "/v1/sys/audit/" + policy,
+            url: "/v1/sys/policy/" + policy,
             context: context,
             type: 'DELETE',
             headers: {
