@@ -36,12 +36,16 @@
     <script type="text/babel" src="policy.js"></script>
     <script type="text/babel" src="policy-list.js"></script>
     <script type="text/babel" src="policy-update.js"></script>
+    <script type="text/babel" src="token.js"></script>
+    <script type="text/babel" src="token-list.js"></script>
+    <script type="text/babel" src="token-lookup.js"></script>
 
     <script src="js/service/audit-backend-service.js"></script>
     <script src="js/service/auth-backend-service.js"></script>
     <script src="js/service/secret-backend-service.js"></script>
     <script src="js/service/seal-service.js"></script>
     <script src="js/service/policy-service.js"></script>
+    <script src="js/service/token-service.js"></script>
 </head>
 <body>
 
@@ -110,6 +114,8 @@
                 mainComponent = ( <AuditBackend /> )
             } else if (this.state.targetPage === "policy") {
                 mainComponent = ( <Policy /> )
+            } else if (this.state.targetPage === "token") {
+                mainComponent = ( <Token /> )
             }
 
             console.log(mainComponent)
