@@ -55,7 +55,7 @@ class TokenLookup extends React.Component {
         return (
             <section className="container" id="token-lookup">
                 <h5 className="title">Token</h5>
-                <BreadCrumb folders={("tokens/token").split("/")} onClick={this.handleBreadCrumb} />
+                <BreadCrumb folders={["tokens", "token"]} onClick={this.handleBreadCrumb} />
                 {token}
             </section>
         )
