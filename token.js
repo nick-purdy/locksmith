@@ -10,6 +10,7 @@ class Token extends React.Component {
 
         this.handleLookup = this.handleLookup.bind(this)
         this.handleList = this.handleList.bind(this)
+        this.handleCreate = this.handleCreate.bind(this)
     }
 
     handleLookup(token) {
@@ -25,14 +26,24 @@ class Token extends React.Component {
         })
     }
 
+    handleCreate() {
+        this.setState({
+            view: "create"
+        })
+    }
+
     render() {
         if (this.state.view === "list") {
             return (
-                <TokenList onLookup={this.handleLookup} />
+                <TokenList onLookup={this.handleLookup} onCreate={this.handleCreate} />
+            )
+        } else if (this.state.view === "lookup") {
+            return (
+                <TokenLookup token={this.state.token} onList={this.handleList} />
             )
         } else {
             return (
-                <TokenLookup token={this.state.token} onList={this.handleList} />
+                <TokenCreate onList={this.handleList} />
             )
         }
     }

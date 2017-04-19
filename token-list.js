@@ -18,7 +18,7 @@ class TokenList extends React.Component {
     }
 
     onCreate() {
-        this.props.onUpdate.call(null, "")
+        this.props.onCreate.call(null)
     }
 
     handleDelete(token) {

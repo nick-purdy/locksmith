@@ -42,9 +42,30 @@ class TokenService {
         });
     }
 
-    static create(context, callback, failCallback, name, rules) {
-        const policyParams = {
-            rules: rules
+    static create(context, callback, failCallback, params = {}) {
+        const tokenParams = {
+            id: "",
+            policies: [],
+            meta: [],
+            no_parent: false,
+            no_default_policy: false,
+            renewable: true,
+            ttl: "",
+            explicit_max_ttl: "",
+            display_name: "",
+            num_uses: 0,
+            period: ""
+        }
+
+        Object.assign(tokenParams, params)
+
+        for (var propertyName in tokenParams) {
+            if (tokenParams.hasOwnProperty(propertyName)) {
+                if (tokenParams[propertyName] === "") {
+                    console.log("Removing empty [default] value: " + propertyName)
+                    delete tokenParams[propertyName]
+                }
+            }
         }
 
         $.ajax({
@@ -54,7 +75,7 @@ class TokenService {
             headers: {
                 "X-Vault-Token": globalLoginToken
             },
-            data: JSON.stringify(policyParams),
+            data: JSON.stringify(tokenParams),
             success: function(result) {
                 callback.call(context, result)
             },
