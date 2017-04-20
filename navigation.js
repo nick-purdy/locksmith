@@ -3,7 +3,10 @@ class Navigation extends React.Component {
         return (
             <nav className="navigation">
                 <section className="container">
-                    <h1 className="title">Locksmith</h1>
+                    <h1 className="title">
+                        <i className="fa fa-unlock-alt" aria-hidden="true"></i>
+                        Locksmith
+                    </h1>
                     <NavigationOptions authenticated={this.props.authenticated} />
                 </section>
             </nav>
@@ -17,9 +20,10 @@ class NavigationOptions extends React.Component {
         if (this.props.authenticated) {
             return (
                 <ul className="navigation-list float-right">
-                    <NavigationLink title="Secrets" href="secret" />
+                    <NavigationDropdown title="Secrets" href="secret" />
                     <NavigationLink title="Policies" href="policy" />
-                    <NavigationLink title="Config" href="config" />
+                    <NavigationDropdown title="Authentication" href="token" />
+                    <NavigationConfig title="Config" href="config" />
                 </ul>
             )
         }
@@ -46,6 +50,51 @@ class NavigationLink extends React.Component {
         return (
             <li className="navigation-item">
                 <a className="navigation-link" onClick={this.handleNavigationChange} data-popover>{this.props.title}</a>
+            </li>
+        )
+    }
+}
+
+class NavigationDropdown extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.handleNavigationChange = this.handleNavigationChange.bind(this)
+    }
+
+    handleNavigationChange() {
+        rootPage.changeToMainPage.call(rootPage, this.props.href)
+    }
+
+    render() {
+        return (
+            <li className="navigation-item">
+                <a className="navigation-link" onClick={this.handleNavigationChange} data-popover>
+                    {this.props.title}
+                    <i className="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+            </li>
+        )
+    }
+}
+
+class NavigationConfig extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.handleNavigationChange = this.handleNavigationChange.bind(this)
+    }
+
+    handleNavigationChange() {
+        rootPage.changeToMainPage.call(rootPage, this.props.href)
+    }
+
+    render() {
+        return (
+            <li className="navigation-item">
+                <a className="navigation-link" onClick={this.handleNavigationChange} data-popover>
+                    <i className="fa fa-cog" aria-hidden="true"></i>
+                </a>
             </li>
         )
     }

@@ -1,3 +1,6 @@
+body {
+    overflow-y: scroll;
+}
 
 .wrapper {
     display: block;
@@ -28,7 +31,7 @@
 }
 
 .navigation {
-    background: #F1F1F9;
+    background: #000000;
     border-bottom: .1rem solid #e1e0e9;
     display: block;
     height: 5.2rem;
@@ -65,18 +68,32 @@
     position: relative
 }
 
+.navigation .navigation-item i {
+    padding-left: 5px;
+}
+
 .navigation .title,
 .navigation .navigation-link {
     display: inline;
     font-size: 1.6rem;
     line-height: 5.2rem;
     padding: 0;
+    color: #aaa;
     text-decoration: none
 }
 
+.navigation .navigation-link:hover {
+    text-decoration: underline;
+}
+
 .navigation .title {
+    color: #ddd;
     font-size: 2rem;
     position: relative
+}
+
+.navigation .title i {
+    padding-right: 10px;
 }
 
 .error {
