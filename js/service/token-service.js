@@ -19,15 +19,14 @@ class TokenService {
         });
     }
 
-    static lookup(context, callback, token) {
-        // TODO: This doesnt appear to match the documentation
+    static lookup(context, callback, token_accessor) {
         const lookupParams = {
-            token: token
+            accessor: token_accessor
         }
         $.ajax({
-            url: "/v1/auth/token/lookup",
+            url: "/v1/auth/token/lookup-accessor",
             context: context,
-            type: 'GET',
+            type: 'POST',
             headers: {
                 "X-Vault-Token": globalLoginToken
             },
