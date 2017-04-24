@@ -142,7 +142,7 @@ class SecretsRow extends React.Component {
                                 <span>&nbsp;{this.props.path}</span>
                             </a>
                         </td>
-                        <td><a>delete</a></td>
+                        <td></td>
                     </tr>
             )
         } else {
