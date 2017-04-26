@@ -132,11 +132,43 @@ class SecretList extends React.Component {
 }
 
 class SecretsRow extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            confirmDeleting: false
+        }
+
+        this.confirmDelete = this.confirmDelete.bind(this)
+        this.handleConfirm = this.handleConfirm.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
+    }
+
+    confirmDelete() {
+        this.setState({confirmDeleting: true})
+    }
+
+    handleConfirm() {
+        this.setState({confirmDeleting: false})
+        this.props.onDeleteClick.call(null)
+    }
+
+    handleCancel() {
+        this.setState({confirmDeleting: false})
+    }
+
     render() {
+        let confirmDeleting = ""
+        if (this.state.confirmDeleting) {
+            const message = "Are you sure you want to delete the secret '" + this.props.path + "'?"
+            confirmDeleting = (<Confirm onCancel={this.handleCancel} onConfirm={this.handleConfirm} message={message} />)
+        }
+
         if (this.props.path.endsWith("/")) {
             return (
                     <tr>
                         <td>
+                            {confirmDeleting}
                             <a onClick={this.props.onClick}>
                                 <i className="fa fa-folder-o" aria-hidden="true"></i>
                                 <span>&nbsp;{this.props.path}</span>
@@ -149,12 +181,13 @@ class SecretsRow extends React.Component {
             return (
                     <tr>
                         <td>
+                            {confirmDeleting}
                             <a onClick={this.props.onEditClick}>
                                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
                                 <span>&nbsp;{this.props.path}</span>
                             </a>
                         </td>
-                        <td><a onClick={this.props.onDeleteClick}>delete</a></td>
+                        <td><a onClick={this.confirmDelete}>delete</a></td>
                     </tr>
             )
         }

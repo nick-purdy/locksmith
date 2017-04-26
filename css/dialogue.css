@@ -1,0 +1,26 @@
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 200;
+}
+
+.confirm {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -110px;
+    margin-left: -250px;
+    width: 500px;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: .4em;
+    filter: drop-shadow(.5rem .5rem .5rem rgb(55, 55, 55));
+    background-color: #fff;
+    z-index: 201;
+}
