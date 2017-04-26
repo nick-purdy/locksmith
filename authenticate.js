@@ -20,6 +20,11 @@ class Authenticate extends React.Component {
     }
 
     render() {
+        let mechanism = (<AuthenticateToken onAuthenticated={this.handleAuthenticated} />)
+        if (this.state.mechanism === "ldap") {
+            mechanism = (<AuthenticateLdap onAuthenticated={this.handleAuthenticated} />)
+        }
+
         return (
             <section className="container" id="authenticate">
                 <h5 className="title">Authenticate</h5>
@@ -29,7 +34,7 @@ class Authenticate extends React.Component {
                     <option value="ldap">LDAP</option>
                 </select>
 
-                <AuthenticateToken onAuthenticated={this.handleAuthenticated} />
+                {mechanism}
             </section>
         )
     }
