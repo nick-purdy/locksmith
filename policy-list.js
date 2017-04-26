@@ -86,10 +86,8 @@ class PolicyRow extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.name}</td>
+                <td><a onClick={this.handleUpdate}>{this.props.name}</a></td>
                 <td>
-                    <a onClick={this.handleUpdate}>edit</a>
-                    &nbsp;
                     <a onClick={this.props.onDelete}>delete</a>
                 </td>
             </tr>

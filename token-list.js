@@ -86,10 +86,8 @@ class TokenRow extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.name}</td>
+                <td><a onClick={this.handleLookup}>{this.props.name}</a></td>
                 <td>
-                    <a onClick={this.handleLookup}>lookup</a>
-                    &nbsp;
                     <a onClick={this.props.onRenew}>renew</a>
                     &nbsp;
                     <a onClick={this.props.onDelete}>revoke</a>
