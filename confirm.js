@@ -26,7 +26,7 @@ class Confirm extends React.Component {
 
         return (
             <div>
-                <div className="overlay">
+                <div className="overlay" onClick={this.handleCancel}>
                 </div>
                 <div className="confirm">
                     <blockquote>{message}</blockquote>
