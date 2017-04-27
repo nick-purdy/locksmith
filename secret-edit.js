@@ -149,8 +149,8 @@ class SecretEdit extends React.Component {
                             {rows}
                             <p><a onClick={this.handleAddNewSecretRow}>Add New</a></p>
                         </div>
-                        <input className="button-primary" value="Save" type="submit" />
                         <button className="button button-outline float-right" onClick={this.handleCancel}>Cancel</button>
+                        <input className="button-primary" value="Save" type="submit" />
                     </fieldset>
                 </form>
             )

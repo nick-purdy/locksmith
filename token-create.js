@@ -129,8 +129,8 @@ class TokenCreate extends React.Component {
                         <label>period</label>
                         <input id="period" value={this.state.period} onChange={this.handleChange} placeholder="period... leave blank for default value" type="text" />
 
-                        <input className="button-primary" value="Save" type="submit" />
                         <button className="button button-outline float-right" onClick={this.handleCancel}>Cancel</button>
+                        <input className="button-primary" value="Save" type="submit" />
                     </fieldset>
                 </form>
             </section>
