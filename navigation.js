@@ -20,9 +20,9 @@ class NavigationOptions extends React.Component {
         if (this.props.authenticated) {
             return (
                 <ul className="navigation-list float-right">
-                    <NavigationDropdown title="Secrets" href="secret" />
+                    <NavigationDropdown title="Secrets" href="secret" subMenu={["secret/ [generic]"]} />
                     <NavigationLink title="Policies" href="policy" />
-                    <NavigationDropdown title="Authentication" href="token" />
+                    <NavigationDropdown title="Authentication" href="token" subMenu={["token"]} />
                     <NavigationConfig title="Config" href="config" />
                 </ul>
             )
@@ -59,20 +59,64 @@ class NavigationDropdown extends React.Component {
     constructor(props) {
         super(props)
 
-        this.handleNavigationChange = this.handleNavigationChange.bind(this)
+        this.handleMenuClick = this.handleMenuClick.bind(this)
+        this.handleSubmenuClick = this.handleSubmenuClick.bind(this)
+        this.handleGlobalClick = this.handleGlobalClick.bind(this)
+        this.state = {
+            open: false
+        }
+
+        let baseLink = null
     }
 
-    handleNavigationChange() {
+    componentDidMount() {
+      document.body.addEventListener('click', this.handleGlobalClick);
+    }
+
+    componentWillUnmount() {
+      document.body.removeEventListener('click', this.handleGlobalClick);
+    }
+
+    handleMenuClick() {
+        this.setState({open: !this.state.open})
+    }
+
+    handleSubmenuClick() {
         rootPage.changeToMainPage.call(rootPage, this.props.href)
     }
 
+    handleGlobalClick(event) {
+        if (!(this.baseLink == event.target) && !this.baseLink.contains(event.target)) {
+            this.setState({open: false})
+        }
+    }
+
     render() {
+        let cssOpen = "popover"
+        if (this.state.open) {
+            cssOpen = "popover popover-open"
+        }
+
+        let subMenuItems = []
+        for (var i in this.props.subMenu) {
+            subMenuItems.push(
+                <li key={this.props.subMenu} className="popover-item">
+                    <a className="popover-link" onClick={this.handleSubmenuClick} title={this.props.subMenu}>{this.props.subMenu}</a>
+                </li>
+            )
+        }
+
         return (
             <li className="navigation-item">
-                <a className="navigation-link" onClick={this.handleNavigationChange} data-popover>
+                <a className="navigation-link" onClick={this.handleMenuClick} data-popover ref={(link) => { this.baseLink = link; }}>
                     {this.props.title}
                     <i className="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
+                <div className={cssOpen} id="popover-grid">
+                    <ul className="popover-list">
+                        {subMenuItems}
+                    </ul>
+                </div>
             </li>
         )
     }
