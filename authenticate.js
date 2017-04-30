@@ -3,7 +3,7 @@ class Authenticate extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mechanism: "token"
+            mechanism: "ldap"
         };
 
         this.handleChange = this.handleChange.bind(this);
