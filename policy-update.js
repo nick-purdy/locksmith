@@ -11,6 +11,7 @@ class PolicyUpdate extends React.Component {
         this.handleRulesChange = this.handleRulesChange.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleBreadCrumb = this.handleBreadCrumb.bind(this)
     }
 
     componentDidMount() {
@@ -32,6 +33,10 @@ class PolicyUpdate extends React.Component {
         this.setState({rules: event.target.value});
     }
 
+    handleBreadCrumb() {
+        this.props.onList.call()
+    }
+
     handleSubmit(e) {
         e.preventDefault()
 
@@ -51,11 +56,11 @@ class PolicyUpdate extends React.Component {
         this.setState({errors: message})
     }
 
-
     render() {
         let title = (
             <div>
                 <h5 className="title">Update Policy</h5>
+                <BreadCrumb folders={["policies", this.state.name]} onClick={this.handleBreadCrumb} />
                 <label>Name</label>
                 <p>{this.state.name}</p>
             </div>
@@ -64,6 +69,7 @@ class PolicyUpdate extends React.Component {
             title = (
                 <div>
                     <h5 className="title">Create Policy</h5>
+                    <BreadCrumb folders={["policies", "policy"]} onClick={this.handleBreadCrumb} />
                     <label>Name</label>
                     <input value={this.state.name} onChange={this.handleNameChange} placeholder="Policy name" type="text" />
                 </div>
@@ -73,7 +79,6 @@ class PolicyUpdate extends React.Component {
         return (
             <section className="container">
                 {title}
-
                 <form onSubmit={this.handleSubmit}>
 
                     <label>Rules</label>
