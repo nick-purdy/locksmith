@@ -14,6 +14,7 @@ class PolicyList extends React.Component {
 
     onListPolicies(results) {
         console.log(results.data)
+        results.data.policies.sort()
         this.setState(results)
     }
 
