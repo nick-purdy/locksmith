@@ -54,8 +54,8 @@ class AuditBackendMount extends React.Component {
                     <div className="error">{this.state.errors}</div>
                     <input value={this.state.path} onChange={this.handleChange} placeholder="/var/log/vault/log" type="text" />
 
-                    <button className="button button-outline float-right" onClick={this.handleCancel}>Cancel</button>
-                    <input className="button-primary" value="Save" type="submit" />
+                    <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
+                    <input className="button-primary float-right" value="Save" type="submit" />
                 </form>
 
             </section>

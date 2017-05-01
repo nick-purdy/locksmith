@@ -80,8 +80,8 @@ class PolicyUpdate extends React.Component {
                     <div className="error">{this.state.errors}</div>
                     <textarea value={this.state.rules} onChange={this.handleRulesChange} placeholder="rules json..." rows="20"></textarea>
 
-                    <button className="button button-outline float-right" onClick={this.props.onList}>Cancel</button>
-                    <input className="button-primary" value="Save" type="submit" />
+                    <button className="button button-outline" onClick={this.props.onList}>Cancel</button>
+                    <input className="button-primary float-right" value="Save" type="submit" />
                 </form>
 
             </section>

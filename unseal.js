@@ -80,8 +80,8 @@ class Unseal extends React.Component {
                     <div className="error">{this.state.errors}</div>
                     <div className="success">{this.state.success}</div>
                     <input value={this.state.key} onChange={this.handleChange} placeholder="Your Unseal Token. Input will be hidden..." id="unsealTokenField" type="password" />
-                    <button className="button button-outline float-right" onClick={this.handleReset}>Reset</button>
-                    <input className="button-primary" value="Unseal" type="submit" />
+                    <button className="button button-outline" onClick={this.handleReset}>Reset</button>
+                    <input className="button-primary float-right" value="Unseal" type="submit" />
                 </form>
 
                 <label>Progress</label>
