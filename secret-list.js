@@ -26,6 +26,7 @@ class SecretList extends React.Component {
             type: 'LIST',
             success: function(result) {
                 console.info(result)
+                this.sortSecrets(result)
                 this.setState(result)
             },
             error: function(e) {
@@ -34,6 +35,20 @@ class SecretList extends React.Component {
                 this.setState({errors: e.responseJSON.errors});
             },
         });
+    }
+
+    sortSecrets(result) {
+        result.data.keys.sort(
+            function compare(a, b) {
+                if (a.endsWith("/") && !b.endsWith("/")) {
+                    return -1
+                } else if (b.endsWith("/") && !a.endsWith("/")) {
+                    return 1
+                } else {
+                    return (a > b) ? 1 : -1
+                }
+            }
+        )
     }
 
     deleteSecrets(deletePath) {
