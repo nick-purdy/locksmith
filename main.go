@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -29,7 +30,11 @@ type ServerConfig struct {
 var config Config
 
 func main() {
-	ReadConfiguration()
+
+	var configFileName = flag.String("c", "./config.yaml", "When supplied defines the path to the config yaml file")
+	flag.Parse()
+
+	ReadConfiguration(*configFileName)
 
 	http.Handle("/v1/", NewProxy())
 	http.Handle("/", http.FileServer(http.Dir("./static")))
@@ -51,8 +56,8 @@ func NewProxy() http.Handler {
 	return &httputil.ReverseProxy{Director: director}
 }
 
-func ReadConfiguration() {
-	filename, _ := filepath.Abs("./config.yaml")
+func ReadConfiguration(configFileName string) {
+	filename, _ := filepath.Abs(configFileName)
 	yamlFile, err := ioutil.ReadFile(filename)
 
 	if err != nil {
