@@ -11,8 +11,19 @@ import (
 )
 
 type Config struct {
-	VaultUrl string `yaml:"vault_url"`
-	Port     string `yaml:"port"`
+	Vault  VaultConfig  `yaml:"vault"`
+	Server ServerConfig `yaml:"server"`
+}
+
+type VaultConfig struct {
+	Url string `yaml:"url"`
+}
+
+type ServerConfig struct {
+	Port        string `yaml:"port"`
+	Secure      bool   `yaml:"secure"`
+	Certificate string `yaml:"certificate"`
+	PrivateKey  string `yaml:"private_key"`
 }
 
 var config Config
@@ -22,12 +33,17 @@ func main() {
 
 	http.Handle("/v1/", NewProxy())
 	http.Handle("/", http.FileServer(http.Dir("./static")))
-	http.ListenAndServe(":"+config.Port, nil)
+
+	if config.Server.Secure {
+		http.ListenAndServeTLS(":"+config.Server.Port, config.Server.Certificate, config.Server.PrivateKey, nil)
+	} else {
+		http.ListenAndServe(":"+config.Server.Port, nil)
+	}
 }
 
 func NewProxy() http.Handler {
 	director := func(req *http.Request) {
-		out, _ := url.Parse(config.VaultUrl)
+		out, _ := url.Parse(config.Vault.Url)
 
 		req.URL.Scheme = out.Scheme
 		req.URL.Host = out.Host

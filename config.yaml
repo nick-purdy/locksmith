@@ -1,3 +1,9 @@
 ---
-vault_url: http://localhost:8200/
-port: 8080
+vault:
+  url: http://localhost:8200/
+
+server:
+  port: 8080
+  secure: true
+  certificate: server.crt
+  private_key: server.key

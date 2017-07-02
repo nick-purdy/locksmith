@@ -1,1 +1,4 @@
 .idea
+server.key
+server.crt
+locksmith
