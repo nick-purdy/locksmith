@@ -1,0 +1,13 @@
+#!/bin/bash
+
+rm -Rf target
+mkdir -p target
+mkdir -p target/static
+
+echo "Compiling go binary"
+docker run --rm -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith golang:1.8 go get gopkg.in/yaml.v2 && go build -v && mv locksmith target/
+
+echo "Building JavaScript components"
+docker run --rm -it -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith/static node:9.3.0 npm run build && cp -r static/build target/static/build && cp static/index.html target/static/
+
+cp config.yaml target/

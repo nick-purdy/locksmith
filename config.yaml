@@ -4,6 +4,6 @@ vault:
 
 server:
   port: 8080
-  secure: true
+  secure: false
   certificate: server.crt
   private_key: server.key

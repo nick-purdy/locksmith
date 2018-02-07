@@ -1,4 +1,9 @@
 .idea
+.vscode
 server.key
 server.crt
 locksmith
+target
+static/build
+static/node_modules
+static/.nyc_output
