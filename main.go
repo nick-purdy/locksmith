@@ -2,10 +2,12 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -61,11 +63,38 @@ func ReadConfiguration(configFileName string) {
 	yamlFile, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		panic("You must supply a config.yaml file")
+		fmt.Println("Could not find configuration. Using environment variables / defaults.")
+		// panic("You must supply a config.yaml file")
+		secure := false
+		if os.Getenv("SERVER_SECURE") == "true" {
+			secure = true
+		}
+
+		config = Config{
+			VaultConfig{
+				getOrDefault("VAULT_URL", "http://localhost:8200"),
+			},
+			ServerConfig{
+				getOrDefault("SERVER_PORT", "8080"),
+				secure,
+				getOrDefault("SERVER_CERTIFACTE_PATH", ""),
+				getOrDefault("SERVER_PRIVATE_KEY_PATH", ""),
+			},
+		}
+		fmt.Println(config)
+		return
 	}
 
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
 		panic("Invalid yaml file")
 	}
+}
+
+func getOrDefault(envKey string, defaultValue string) string {
+	value, present := os.LookupEnv(envKey)
+	if present {
+		return value
+	}
+	return defaultValue
 }
