@@ -11,3 +11,5 @@ echo "Building JavaScript components"
 docker run --rm -it -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith/static node:9.3.0 npm run build && cp -r static/build target/static/build && cp static/index.html target/static/
 
 cp config.yaml target/
+
+docker build --tag=locksmith:latest .

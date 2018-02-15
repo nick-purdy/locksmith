@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+COPY target /opt/locksmith
+
+EXPOSE 8080
+ENV VAULT_URL=http://localhost:8200
+ENV SERVER_PORT=8080
+ENV SERVER_SECURE=false
+ENV SERVER_CERTIFACTE_PATH=
+ENV SERVER_PRIVATE_KEY_PATH=
+
+CMD /opt/locksmith/locksmith
