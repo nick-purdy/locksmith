@@ -39,7 +39,10 @@ func main() {
 	ReadConfiguration(*configFileName)
 
 	http.Handle("/v1/", NewProxy())
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/build/", http.FileServer(http.Dir("./static")))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/index.html")
+	})
 
 	if config.Server.Secure {
 		http.ListenAndServeTLS(":"+config.Server.Port, config.Server.Certificate, config.Server.PrivateKey, nil)

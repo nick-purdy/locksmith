@@ -6,7 +6,7 @@ export default class AuthService {
     }
 
     getToken() {
-        return this.token
+        return this.getTokenFromCookie()
     }
 
     static getInstance() {
@@ -30,7 +30,7 @@ export default class AuthService {
         })
         .then(response => response.json())
         .then(result => {
-            this.token = result["auth"]["client_token"]
+            this.setToken(result["auth"]["client_token"])
             success_callback.call()
         });
     }
@@ -69,9 +69,26 @@ export default class AuthService {
         })
         .then(response => response.json())
         .then(result => {
-            this.token = token
+            this.setToken(token)
             success_callback.call()
         });
+    }
+
+    setToken(token) {
+        document.cookie = "token=" + token + "; expires=0; path=/"
+    }
+
+    getTokenFromCookie() {
+        const name = "token="
+        const cookies = decodeURIComponent(document.cookie).split(';')
+
+        for (let cookie of cookies) {
+            cookie = cookie.replace(/^\s*/, '')
+            if (cookie.startsWith(name)) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return '';
     }
 }
 
