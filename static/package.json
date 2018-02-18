@@ -30,9 +30,8 @@
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-2": "6.13.0",
     "babel-register": "6.11.6",
-    "webpack": "2.1.0-beta.20",
-    "webpack-config-utils": "2.0.0",
-    "webpack-dev-server": "2.1.0-beta.0",
-    "webpack-validator": "2.2.7"
+    "webpack": "3.11.00",
+    "webpack-config-utils": "2.3.0",
+    "webpack-validator": "3.0.0"
   }
 }
