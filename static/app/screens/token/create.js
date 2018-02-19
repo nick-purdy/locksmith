@@ -86,59 +86,63 @@ export default class TokenCreate extends Component {
 
     render() {
         return (
-            <section className="container" id="token-create">
-                <h5 className="title">Create Token</h5>
-                <BreadCrumb folders={["tokens", "create"]} onClick={this.handleBreadCrumb} />
-                <form onSubmit={this.handleSubmit}>
-                    <fieldset>
-                        <label>id</label>
-                        <div className="error">{this.state.errors}</div>
-                        <input id="id" value={this.state.id} onChange={this.handleChange} placeholder="id... leave blank for random" type="text" />
 
-                        <label>display_name</label>
-                        <input id="display_name" value={this.state.display_name} onChange={this.handleChange} placeholder="display name... leave blank for 'token'" type="text" />
+            <main className="wrapper">
+                <Navigation authenticated={true} />
+                <section className="container" id="token-create">
+                    <h5 className="title">Create Token</h5>
+                    <BreadCrumb folders={["tokens", "create"]} onClick={this.handleBreadCrumb} />
+                    <form onSubmit={this.handleSubmit}>
+                        <fieldset>
+                            <label>id</label>
+                            <div className="error">{this.state.errors}</div>
+                            <input id="id" value={this.state.id} onChange={this.handleChange} placeholder="id... leave blank for random" type="text" />
 
-                        <label>policies (comma separated)</label>
-                        <input id="policies" value={this.state.policies} onChange={this.handleChange} placeholder="policies... leave blank for creating tokens policies" type="text" />
+                            <label>display_name</label>
+                            <input id="display_name" value={this.state.display_name} onChange={this.handleChange} placeholder="display name... leave blank for 'token'" type="text" />
 
-                        <label>meta (comma separated)</label>
-                        <input id="meta" value={this.state.meta} onChange={this.handleChange} placeholder="meta... optional" type="text" />
+                            <label>policies (comma separated)</label>
+                            <input id="policies" value={this.state.policies} onChange={this.handleChange} placeholder="policies... leave blank for creating tokens policies" type="text" />
 
-                        <label>no parent</label>
-                        <select id="no_parent" onChange={this.handleChange} value={this.state.no_parent}>
-                            <option value="false">false</option>
-                            <option value="true">true</option>
-                        </select>
+                            <label>meta (comma separated)</label>
+                            <input id="meta" value={this.state.meta} onChange={this.handleChange} placeholder="meta... optional" type="text" />
 
-                        <label>no default policy</label>
-                        <select id="no_default_policy" onChange={this.handleChange} value={this.state.no_default_policy}>
-                            <option value="false">false</option>
-                            <option value="true">true</option>
-                        </select>
+                            <label>no parent</label>
+                            <select id="no_parent" onChange={this.handleChange} value={this.state.no_parent}>
+                                <option value="false">false</option>
+                                <option value="true">true</option>
+                            </select>
 
-                        <label>renewable</label>
-                        <select id="renewable" onChange={this.handleChange} value={this.state.renewable}>
-                            <option value="false">false</option>
-                            <option value="true">true</option>
-                        </select>
+                            <label>no default policy</label>
+                            <select id="no_default_policy" onChange={this.handleChange} value={this.state.no_default_policy}>
+                                <option value="false">false</option>
+                                <option value="true">true</option>
+                            </select>
 
-                        <label>ttl</label>
-                        <input id="ttl" value={this.state.ttl} onChange={this.handleChange} placeholder="ttl... leave blank for default value" type="text" />
+                            <label>renewable</label>
+                            <select id="renewable" onChange={this.handleChange} value={this.state.renewable}>
+                                <option value="false">false</option>
+                                <option value="true">true</option>
+                            </select>
 
-                        <label>explicit max ttl</label>
-                        <input id="explicit_max_ttl" value={this.state.explicit_max_ttl} onChange={this.handleChange} placeholder="explicit_max_ttl... leave blank for default value" type="text" />
+                            <label>ttl</label>
+                            <input id="ttl" value={this.state.ttl} onChange={this.handleChange} placeholder="ttl... leave blank for default value" type="text" />
 
-                        <label>num uses</label>
-                        <input id="num_uses" value={this.state.num_uses} onChange={this.handleChange} placeholder="num_uses... leave blank for default value" type="text" />
+                            <label>explicit max ttl</label>
+                            <input id="explicit_max_ttl" value={this.state.explicit_max_ttl} onChange={this.handleChange} placeholder="explicit_max_ttl... leave blank for default value" type="text" />
 
-                        <label>period</label>
-                        <input id="period" value={this.state.period} onChange={this.handleChange} placeholder="period... leave blank for default value" type="text" />
+                            <label>num uses</label>
+                            <input id="num_uses" value={this.state.num_uses} onChange={this.handleChange} placeholder="num_uses... leave blank for default value" type="text" />
 
-                        <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
-                        <input className="button-primary float-right" value="Save" type="submit" />
-                    </fieldset>
-                </form>
-            </section>
+                            <label>period</label>
+                            <input id="period" value={this.state.period} onChange={this.handleChange} placeholder="period... leave blank for default value" type="text" />
+
+                            <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
+                            <input className="button-primary float-right" value="Save" type="submit" />
+                        </fieldset>
+                    </form>
+                </section>
+            </main>
         )
     }
 }

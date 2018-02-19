@@ -106,7 +106,7 @@ body {
 
 .progress {
     border-radius: .4rem;
-    #background-color: #fafafa;
+    /* #background-color: #fafafa; */
     border: 1px solid #d1d1d1;
     color: #fff;
     text-align: center;

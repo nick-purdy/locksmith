@@ -23,9 +23,9 @@ import TokenLookup from './app/screens/token/lookup'
 import TokenCreate from './app/screens/token/create'
 import './assets/css/font-awesome.min.css'
 import './assets/css/fonts-roboto.css'
-import './assets/css/locksmith.css'
-import './assets/css/milligram.min.css'
 import './assets/css/normalize.css'
+import './assets/css/milligram.min.css'
+import './assets/css/locksmith.css'
 import './assets/css/popover-menu.css'
 
 ReactDOM.render(
