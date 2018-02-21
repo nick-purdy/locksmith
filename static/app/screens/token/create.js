@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import TokenService from '../../../app/service/token-service'
 import Navigation from '../../../app/utils/navigation'
 import BreadCrumb from '../../../app/utils/bread-crumbs'
+import Confirm from '../../../app/utils/confirm'
 
 export default class TokenCreate extends Component {
     constructor(props) {
@@ -20,7 +21,8 @@ export default class TokenCreate extends Component {
             explicit_max_ttl: "",
             display_name: "",
             num_uses: 0,
-            period: ""
+            period: "",
+            saved: false
         }
 
         this.handleCancel = this.handleCancel.bind(this)
@@ -72,8 +74,8 @@ export default class TokenCreate extends Component {
     }
 
     handleCreated(result) {
-        console.log(result)
-        this.handleCancel()
+        this.setState({result: result})
+        this.setState({saved: true})
     }
 
     handleFailed(errors) {
@@ -85,12 +87,25 @@ export default class TokenCreate extends Component {
     }
 
     render() {
-        return (
+        let confirmSaved = ""
+        if (this.state.saved) {
+            const message = (
+                                <div>
+                                    <h5>Token details</h5>
+                                    <p><strong>Your client (secret) token</strong>: {this.state.result.auth.client_token}</p>
+                                    <p><strong>Your accessor token</strong>: {this.state.result.auth.accessor}</p>
+                                    <p>After you click OK on this dialogue you will no longer be able to get this information. Make sure you take note of both values for future reference.</p>
+                                </div>
+                                )
+            confirmSaved = (<Confirm onCancel={this.handleCancel} onConfirm={this.handleCancel} message={message} />)
+        }
 
+        return (
             <main className="wrapper">
                 <Navigation authenticated={true} />
                 <section className="container" id="token-create">
                     <h5 className="title">Create Token</h5>
+                    {confirmSaved}
                     <BreadCrumb folders={["tokens", "create"]} onClick={this.handleBreadCrumb} />
                     <form onSubmit={this.handleSubmit}>
                         <fieldset>

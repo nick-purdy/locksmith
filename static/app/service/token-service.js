@@ -134,11 +134,7 @@ export default class TokenService {
             return response;
         })
         .then(response => {
-            if (!responseOk) {
-                return response.json()
-            } else {
-                return {}
-            }
+            return response.json()
         })
         .then(json => {
             if (responseOk) {
