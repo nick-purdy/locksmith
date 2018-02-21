@@ -16,7 +16,7 @@ export default class Navigation extends Component {
     }
 }
 
-class NavigationOptions extends React.Component {
+class NavigationOptions extends Component {
     render() {
         if (this.props.authenticated) {
             return (
@@ -36,7 +36,7 @@ class NavigationOptions extends React.Component {
     }
 }
 
-class NavigationLink extends React.Component {
+class NavigationLink extends Component {
     constructor(props) {
         super(props)
 
@@ -60,7 +60,7 @@ NavigationLink.contextTypes = {
     router: React.PropTypes.object.isRequired,
 }
 
-class NavigationDropdown extends React.Component {
+class NavigationDropdown extends Component {
     constructor(props) {
         super(props)
 
@@ -131,7 +131,7 @@ NavigationDropdown.contextTypes = {
     router: React.PropTypes.object.isRequired,
 }
 
-class NavigationConfig extends React.Component {
+class NavigationConfig extends Component {
     constructor(props) {
         super(props)
 

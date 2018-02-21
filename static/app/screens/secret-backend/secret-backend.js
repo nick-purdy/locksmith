@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import SecretBackendService from '../../../app/service/secret-backend-service'
 import Navigation from '../../../app/utils/navigation'
 
-export default class SecretBackend extends React.Component {
+export default class SecretBackend extends Component {
     constructor(props) {
         super(props)
 
@@ -72,7 +72,7 @@ export default class SecretBackend extends React.Component {
     }
 }
 
-class SecretBackendRow extends React.Component {
+class SecretBackendRow extends Component {
     constructor(props) {
         super(props)
     }

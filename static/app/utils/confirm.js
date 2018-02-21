@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import '../../assets/css/dialogue.css';
 
-export default class Confirm extends React.Component {
+export default class Confirm extends Component {
     constructor(props) {
         super(props)
 

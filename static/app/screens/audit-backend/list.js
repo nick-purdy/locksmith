@@ -85,7 +85,7 @@ export default class AuditBackendList extends Component {
     }
 }
 
-class AuditBackendRow extends React.Component {
+class AuditBackendRow extends Component {
     constructor(props) {
         super(props)
 
@@ -109,7 +109,7 @@ class AuditBackendRow extends React.Component {
     }
 }
 
-class AuditBackRowOptions extends React.Component {
+class AuditBackRowOptions extends Component {
     render() {
         if (this.props.type === "file") {
             return (

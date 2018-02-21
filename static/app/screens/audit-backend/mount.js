@@ -3,7 +3,7 @@ import AuditBackendService from '../../../app/service/audit-backend-service'
 import Navigation from '../../../app/utils/navigation'
 import BreadCrumb from '../../../app/utils/bread-crumbs'
 
-export default class AuditBackendMount extends React.Component {
+export default class AuditBackendMount extends Component {
     constructor(props) {
         super(props)
 

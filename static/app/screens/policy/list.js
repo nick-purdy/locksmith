@@ -63,7 +63,7 @@ export default class PolicyList extends Component {
     }
 }
 
-class PolicyRow extends React.Component {
+class PolicyRow extends Component {
     constructor(props) {
         super(props)
 

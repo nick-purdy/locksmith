@@ -75,7 +75,7 @@ export default class AuthBackend extends Component {
     }
 }
 
-class AuthBackendRow extends React.Component {
+class AuthBackendRow extends Component {
     constructor(props) {
         super(props)
     }

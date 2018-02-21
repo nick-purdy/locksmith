@@ -110,7 +110,7 @@ export default class SecretUpdate extends Component {
     }
 }
 
-class SecretUpdateRow extends React.Component {
+class SecretUpdateRow extends Component {
     constructor(props) {
         super(props)
         this.state = {

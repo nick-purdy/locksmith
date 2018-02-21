@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AuthenticationMechanism from './mechanism'
 import Navigation from '../../../app/utils/navigation'
 
-export default class Authenticate extends React.Component {
+export default class Authenticate extends Component {
 
     constructor(props) {
         super(props)

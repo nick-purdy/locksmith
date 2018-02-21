@@ -75,7 +75,7 @@ export default class TokenList extends Component {
     }
 }
 
-class TokenRow extends React.Component {
+class TokenRow extends Component {
     constructor(props) {
         super(props)
         this.handleLookup = this.handleLookup.bind(this)

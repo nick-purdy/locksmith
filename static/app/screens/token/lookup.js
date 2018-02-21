@@ -71,7 +71,7 @@ export default class TokenLookup extends Component {
     }
 }
 
-class TokenLookupPolicies extends React.Component {
+class TokenLookupPolicies extends Component {
     render() {
         let policies = []
 

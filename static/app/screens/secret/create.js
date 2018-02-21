@@ -111,7 +111,7 @@ export default class SecretCreate extends Component {
     }
 }
 
-class SecretEditRow extends React.Component {
+class SecretEditRow extends Component {
     constructor(props) {
         super(props)
         this.state = {

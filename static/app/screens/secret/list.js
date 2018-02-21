@@ -4,7 +4,7 @@ import SecretService from '../../../app/service/secret-service'
 import Confirm from '../../../app/utils/confirm'
 import BreadCrumb from '../../../app/utils/bread-crumbs'
 
-export default class SecretList extends React.Component {
+export default class SecretList extends Component {
     constructor(props) {
         super(props)
 
