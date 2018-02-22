@@ -47,7 +47,7 @@ export default class TokenList extends Component {
                     innerParent.handleRevoke.call(null, token)
                 }
                 tokens.push(
-                    <TokenRow key={token} name={token} onLookup={this.props.onLookup} onRevoke={revokeFunc} />
+                    <TokenRow key={token} accessor={token} onLookup={this.props.onLookup} onRevoke={revokeFunc} />
                 )
             }
         } else {
@@ -63,6 +63,7 @@ export default class TokenList extends Component {
             <table>
                 <thead>
                     <tr>
+                        <th>accessor</th>
                         <th>name</th>
                         <th>tools</th>
                     </tr>
@@ -78,18 +79,28 @@ export default class TokenList extends Component {
 class TokenRow extends Component {
     constructor(props) {
         super(props)
-        this.handleLookup = this.handleLookup.bind(this)
+        this.state = {
+            display_name: ""
+        }
+        this.onLookupToken = this.onLookupToken.bind(this)
     }
 
-    handleLookup() {
-        this.props.onLookup.call(null, this.props.name)
+    componentDidMount() {
+        TokenService.lookup(this.onLookupToken, this.props.accessor)
+    }
+
+    onLookupToken(results) {
+        this.setState(results.data)
     }
 
     render() {
         return (
             <tr>
                 <td>
-                    <Link to={"/token/lookup/" + this.props.name}>{this.props.name}</Link>
+                    <Link to={"/token/lookup/" + this.props.accessor}>{this.props.accessor}</Link>
+                </td>
+                <td>
+                    {this.state.display_name}
                 </td>
                 <td>
                     <a onClick={this.props.onRenew}>renew</a>
