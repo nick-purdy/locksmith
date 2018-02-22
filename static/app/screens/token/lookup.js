@@ -32,10 +32,14 @@ export default class TokenLookup extends Component {
             token = (
                 <div>
                     <div className="row">
-                        <div className="column"><strong>id</strong></div>
-                        <div className="column">{this.state.data.id}</div>
+                        <div className="column"><strong>accessor</strong></div>
+                        <div className="column">{this.state.data.accessor}</div>
                     </div>
                     <hr />
+                    <div className="row">
+                        <div className="column"><strong>issue_time</strong></div>
+                        <div className="column">{this.state.data.issue_time}</div>
+                    </div>
                     <TokenLookupPolicies policies={this.state.data.policies} />
                     <div className="row">
                         <div className="column"><strong>path</strong></div>
@@ -49,6 +53,10 @@ export default class TokenLookup extends Component {
                     <div className="row">
                         <div className="column"><strong>num_users</strong></div>
                         <div className="column">{this.state.data.num_users}</div>
+                    </div>
+                    <div className="row">
+                        <div className="column"><strong>orphan</strong></div>
+                        <div className="column">{this.state.data.orphan}</div>
                     </div>
                 </div>
             )
