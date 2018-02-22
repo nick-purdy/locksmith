@@ -67,7 +67,7 @@ export default class TokenCreate extends Component {
             renewable: this.state.renewable,
             ttl: this.state.ttl,
             explicit_max_ttl: this.state.explicit_max_ttl,
-            display_name: this.display_name,
+            display_name: this.state.display_name,
             num_uses: this.state.num_uses,
             period: this.state.period
         })
