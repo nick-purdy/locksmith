@@ -9,7 +9,10 @@ export default class SecretCreate extends Component {
         super(props)
         this.state = {
             pathName: "",
-            data: {newSecretName: "newSecretValue"}
+            incrementedId: 2,
+            secrets: [
+                {id: 1, key: "newSecretName", value: "newSecretValue", type: "field"}
+            ]
         };
 
         this.handleAddNewSecretRow = this.handleAddNewSecretRow.bind(this);
@@ -28,38 +31,50 @@ export default class SecretCreate extends Component {
             path += "/" + this.state.pathName
         }
 
-        SecretService.create(this.handleCancel, path, this.state.data)
+        let data = {}   
+        for (let secret of this.state.secrets) {
+            data[secret.key] = secret.value
+        }
+
+        SecretService.create(this.handleCancel, path, data)
     }
 
-    handleAddNewSecretRow() {
-        let newData = this.state.data;
-        newData["newSecretRow"] = "newSecretValue"
-        this.setState({data: newData})
+    handleAddNewSecretRow(type) {
+        const id = this.state.incrementedId
+        this.setState({incrementedId: id + 1})
+        this.state.secrets.push({id: id, key: 'key', value: 'value', type: type})
     }
 
     handleCancel() {
         this.context.router.push({pathname: '/secret/list/' + this.props.params.path})
     }
 
-    handleUpdateSecretInput(originalName, name, secret) {
-        let newData = {}
+    handleUpdateSecretInput(id, newKey, newValue) {
+        const secrets = this.state.secrets
+        for (let secret of secrets) {
+            if (secret.id === id) {
+                secret.key = newKey
+                secret.value = newValue
+            }
+        }
+        this.setState({secrets: secrets})
+    }
 
-        for (var propertyName in this.state.data) {
-            if (this.state.data.hasOwnProperty(propertyName)) {
-                if (propertyName === originalName) {
-                    newData[name] = secret
-                } else {
-                    newData[propertyName] = this.state.data[propertyName]
-                }
+    handleRemoveSecretRow(id) {
+        const i = this.getIndex(id)
+        const secrets = this.state.secrets
+        secrets.splice(i, 1)
+        this.setState({secrets: secrets})
+    }
+
+    getIndex(id) {
+        for (let i=0; i<this.state.secrets.length; i++) {
+            if (this.state.secrets[i].id === id) {
+                return i
             }
         }
 
-        this.setState({data: newData})
-    }
-
-    handleRemoveSecretRow(name) {
-        delete this.state.data[name]
-        this.forceUpdate()
+        return -1
     }
 
     handleBreadCrumb(path) {
@@ -71,15 +86,12 @@ export default class SecretCreate extends Component {
     }
 
     render() {
-        let form = (<div>Loading...</div>)
         let rows = []
 
-        for (var propertyName in this.state.data) {
-            if (this.state.data.hasOwnProperty(propertyName)) {
-                rows.push(
-                    <SecretEditRow key={propertyName + this.state.data[propertyName]} name={propertyName} secret={this.state.data[propertyName]} onUpdate={this.handleUpdateSecretInput} onRemove={this.handleRemoveSecretRow} />
-                )
-            }
+        for (let value of this.state.secrets) {
+            rows.push(
+                <SecretCreateRow key={value.id} id={value.id} name={value.key} secret={value.value} type={value.type} onUpdate={this.handleUpdateSecretInput} onRemove={this.handleRemoveSecretRow} />
+            )
         }
 
         let breadCrumbPath = this.props.params.path + "/New Secret"
@@ -99,7 +111,7 @@ export default class SecretCreate extends Component {
                                     <label>Secrets</label>
                                 </div>
                                 {rows}
-                                <p><a onClick={this.handleAddNewSecretRow}>Add New</a></p>
+                                <CreateSecretRowDropdown onAdd={this.handleAddNewSecretRow} />
                             </div>
                             <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
                             <input className="button-primary float-right" value="Save" type="submit" />
@@ -111,46 +123,45 @@ export default class SecretCreate extends Component {
     }
 }
 
-class SecretEditRow extends Component {
+class SecretCreateRow extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            originalName: this.props.name,
-            name: this.props.name,
-            secret: this.props.secret,
-            changed: false
-        };
         this.handleChangeName = this.handleChangeName.bind(this)
         this.handleChangeSecret = this.handleChangeSecret.bind(this)
-        this.handleOnBlur = this.handleOnBlur.bind(this)
         this.handleOnRemove = this.handleOnRemove.bind(this)
     }
 
     handleChangeName(event) {
-        this.setState({name: event.target.value});
+        this.props.onUpdate.call(null, this.props.id, event.target.value, this.props.secret)
     }
 
     handleChangeSecret(event) {
-        this.setState({secret: event.target.value});
-    }
-
-    handleOnBlur(event) {
-        this.props.onUpdate.call(null, this.state.originalName, this.state.name, this.state.secret)
+        this.props.onUpdate.call(null, this.props.id, this.props.name, event.target.value)
     }
 
     handleOnRemove(e) {
         e.preventDefault();
-        this.props.onRemove.call(null, this.state.originalName)
+        this.props.onRemove.call(null, this.props.id)
     }
 
     render() {
         return (
             <div className="row">
-                <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeName} placeholder="Secret Name" value={this.state.name} type="text" /></div>
-                <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.state.secret} type="text" /></div>
+                <div className="column"><input onChange={this.handleChangeName} placeholder="Secret Name" value={this.props.name} type="text" /></div>
+                <div className="column">{this.getTextElement(this.props.type)}</div>
                 <div className="column"><a onClick={this.handleOnRemove}>remove</a></div>
             </div>
         )
+    }
+
+    getTextElement(type) {
+        if (this.props.type === 'json') {
+            return (<input onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.props.secret} type="text" />)
+        } else if (this.props.type === 'multiline') {
+            return (<textarea rows="4" cols="50" onChange={this.handleChangeSecret}>{this.props.secret}</textarea>)
+        } else {
+            return (<input onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.props.secret} type="text" />)
+        }
     }
 }
 
@@ -162,4 +173,82 @@ SecretCreate.propTypes = {
 
 SecretCreate.contextTypes = {
     router: React.PropTypes.object.isRequired,
+}
+
+class CreateSecretRowDropdown extends Component {
+    constructor(props) {
+        super(props)
+
+        this.handleMenuClick = this.handleMenuClick.bind(this)
+        this.handleSingleClick = this.handleSingleClick.bind(this)
+        this.handleMultilineClick = this.handleMultilineClick.bind(this)
+        this.handleJsonClick = this.handleJsonClick.bind(this)
+        this.handleGlobalClick = this.handleGlobalClick.bind(this)
+        this.state = {
+            open: false
+        }
+
+        let baseLink = null
+    }
+
+    componentDidMount() {
+        document.body.addEventListener('click', this.handleGlobalClick);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleGlobalClick);
+    }
+
+    handleMenuClick() {
+        this.setState({open: !this.state.open})
+    }
+
+    handleSingleClick() {
+        this.props.onAdd.call(null, 'single')
+    }
+    
+    handleMultilineClick() {
+        this.props.onAdd.call(null, 'multiline')
+    }
+
+    handleJsonClick() {
+        this.props.onAdd.call(null, 'json')
+    }
+
+    handleGlobalClick(event) {
+        if (!(this.baseLink == event.target) && !this.baseLink.contains(event.target)) {
+            this.setState({open: false})
+        }
+    }
+
+    render() {
+        let cssOpen = "popover"
+        if (this.state.open) {
+            cssOpen = "popover popover-open"
+        }
+
+        return (
+            <div style={{height: '3em'}}>
+                <div style={{position: 'absolute'}}>
+                <a className="navigation-link" onClick={this.handleMenuClick} data-popover ref={(link) => { this.baseLink = link; }}>
+                    add
+                    <i className="fa fa-plus" aria-hidden="true" style={{marginLeft: '0.25em'}}></i>
+                </a>
+                <div className={cssOpen} id="popover-grid">
+                    <ul className="popover-list">
+                        <li key="single" className="popover-item">
+                            <a className="popover-link" onClick={this.handleSingleClick} title="single">single</a>
+                        </li>
+                        <li key="multiline" className="popover-item">
+                            <a className="popover-link" onClick={this.handleMultilineClick} title="multiline">multiline</a>
+                        </li>
+                        {/* <li key="json" className="popover-item">
+                            <a className="popover-link" onClick={this.handleJsonClick} title="json">json</a>
+                        </li> */}
+                    </ul>
+                </div>
+                </div>
+            </div>
+        )
+    }
 }
