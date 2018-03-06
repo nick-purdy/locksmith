@@ -1,8 +1,10 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import RowDropdown from './row-dropdown'
 import AuthService from '../../../app/service/auth-service'
 import Navigation from '../../../app/utils/navigation'
 import BreadCrumb from '../../../app/utils/bread-crumbs'
-import SecretService from '../../service/secret-service';
+import SecretService from '../../service/secret-service'
 
 export default class SecretCreate extends Component {
     constructor(props) {
@@ -111,7 +113,7 @@ export default class SecretCreate extends Component {
                                     <label>Secrets</label>
                                 </div>
                                 {rows}
-                                <CreateSecretRowDropdown onAdd={this.handleAddNewSecretRow} />
+                                <RowDropdown onAdd={this.handleAddNewSecretRow} />
                             </div>
                             <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
                             <input className="button-primary float-right" value="Save" type="submit" />
@@ -173,82 +175,4 @@ SecretCreate.propTypes = {
 
 SecretCreate.contextTypes = {
     router: React.PropTypes.object.isRequired,
-}
-
-class CreateSecretRowDropdown extends Component {
-    constructor(props) {
-        super(props)
-
-        this.handleMenuClick = this.handleMenuClick.bind(this)
-        this.handleSingleClick = this.handleSingleClick.bind(this)
-        this.handleMultilineClick = this.handleMultilineClick.bind(this)
-        this.handleJsonClick = this.handleJsonClick.bind(this)
-        this.handleGlobalClick = this.handleGlobalClick.bind(this)
-        this.state = {
-            open: false
-        }
-
-        let baseLink = null
-    }
-
-    componentDidMount() {
-        document.body.addEventListener('click', this.handleGlobalClick);
-    }
-
-    componentWillUnmount() {
-        document.body.removeEventListener('click', this.handleGlobalClick);
-    }
-
-    handleMenuClick() {
-        this.setState({open: !this.state.open})
-    }
-
-    handleSingleClick() {
-        this.props.onAdd.call(null, 'single')
-    }
-    
-    handleMultilineClick() {
-        this.props.onAdd.call(null, 'multiline')
-    }
-
-    handleJsonClick() {
-        this.props.onAdd.call(null, 'json')
-    }
-
-    handleGlobalClick(event) {
-        if (!(this.baseLink == event.target) && !this.baseLink.contains(event.target)) {
-            this.setState({open: false})
-        }
-    }
-
-    render() {
-        let cssOpen = "popover"
-        if (this.state.open) {
-            cssOpen = "popover popover-open"
-        }
-
-        return (
-            <div style={{height: '3em'}}>
-                <div style={{position: 'absolute'}}>
-                <a className="navigation-link" onClick={this.handleMenuClick} data-popover ref={(link) => { this.baseLink = link; }}>
-                    add
-                    <i className="fa fa-plus" aria-hidden="true" style={{marginLeft: '0.25em'}}></i>
-                </a>
-                <div className={cssOpen} id="popover-grid">
-                    <ul className="popover-list">
-                        <li key="single" className="popover-item">
-                            <a className="popover-link" onClick={this.handleSingleClick} title="single">single</a>
-                        </li>
-                        <li key="multiline" className="popover-item">
-                            <a className="popover-link" onClick={this.handleMultilineClick} title="multiline">multiline</a>
-                        </li>
-                        {/* <li key="json" className="popover-item">
-                            <a className="popover-link" onClick={this.handleJsonClick} title="json">json</a>
-                        </li> */}
-                    </ul>
-                </div>
-                </div>
-            </div>
-        )
-    }
 }
