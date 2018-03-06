@@ -1,28 +1,28 @@
-import React, {Component} from 'react';
-import SealService from '../../../app/service/seal-service';
-import Navigation from '../../../app/utils/navigation';
-import Progress from '../../../app/utils/progress';
+import React, {Component} from 'react'
+import SealService from '../../../app/service/seal-service'
+import Navigation from '../../../app/utils/navigation'
+import Progress from '../../../app/utils/progress'
 
 export default class Seal extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             sealed: false,
             key: ''
-        };
+        }
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.onSealed = this.onSealed.bind(this)
         this.onSealedFailure = this.onSealedFailure.bind(this)
     }
 
     handleChange(event) {
-        this.setState({key: event.target.value});
+        this.setState({key: event.target.value})
     }
 
     handleSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
 
         SealService.seal(
             this.onSealed,

@@ -39,7 +39,7 @@ export default class PolicyUpdate extends Component {
     }
 
     handleRulesChange(event) {
-        this.setState({rules: event.target.value});
+        this.setState({rules: event.target.value})
     }
 
     handleBreadCrumb() {

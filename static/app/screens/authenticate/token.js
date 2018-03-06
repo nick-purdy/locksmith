@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import AuthenticationMechanism from './mechanism'
 import AuthService from '../../../app/service/auth-service'
 import Navigation from '../../../app/utils/navigation'
@@ -21,7 +21,7 @@ export default class AuthenticateToken extends Component {
     }
 
     handleChange(event) {
-        this.setState({token: event.target.value});
+        this.setState({token: event.target.value})
     }
 
     handleSubmit(e) {

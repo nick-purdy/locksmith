@@ -17,11 +17,11 @@ export default class RowDropdown extends Component {
     }
 
     componentDidMount() {
-        document.body.addEventListener('click', this.handleGlobalClick);
+        document.body.addEventListener('click', this.handleGlobalClick)
     }
 
     componentWillUnmount() {
-        document.body.removeEventListener('click', this.handleGlobalClick);
+        document.body.removeEventListener('click', this.handleGlobalClick)
     }
 
     handleMenuClick() {

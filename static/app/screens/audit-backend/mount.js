@@ -19,7 +19,7 @@ export default class AuditBackendMount extends Component {
     }
 
     handleChange(event) {
-        this.setState({path: event.target.value});
+        this.setState({path: event.target.value})
     }
 
     handleSubmit(e) {

@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import SealService from '../../../app/service/seal-service';
-import Navigation from '../../../app/utils/navigation';
-import Progress from '../../../app/utils/progress';
+import React, {Component} from 'react'
+import SealService from '../../../app/service/seal-service'
+import Navigation from '../../../app/utils/navigation'
+import Progress from '../../../app/utils/progress'
 
 export default class Unseal extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       sealed: props.sealed,
       progress: props.progress,
       t: props.threshold,
       key: ''
-    };
+    }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -34,12 +34,12 @@ export default class Unseal extends Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    this.setState({errors: "", success: ""});
+    e.preventDefault()
+    this.setState({errors: "", success: ""})
 
     SealService.unseal(
       this.successfulUnsealToken,
-      function(errors) { this.setState({errors: errors}); },
+      function(errors) { this.setState({errors: errors}) },
       this.state.key
     )
   }
@@ -57,8 +57,8 @@ export default class Unseal extends Component {
   }
 
   handleReset(e) {
-    e.preventDefault();
-    this.setState({errors: "", success: ""});
+    e.preventDefault()
+    this.setState({errors: "", success: ""})
 
     SealService.reset(
       this.onReset,
@@ -68,7 +68,7 @@ export default class Unseal extends Component {
   }
 
   handleChange(event) {
-    this.setState({key: event.target.value});
+    this.setState({key: event.target.value})
   }
 
   render() {

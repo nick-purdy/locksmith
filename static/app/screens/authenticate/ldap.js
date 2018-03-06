@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import AuthenticationMechanism from './mechanism'
 import AuthService from '../../../app/service/auth-service'
 import Navigation from '../../../app/utils/navigation'
@@ -26,7 +26,7 @@ export default class AuthenticateLdap extends Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault()
 
         // const ldapParams = {
         //     password: this.state.password

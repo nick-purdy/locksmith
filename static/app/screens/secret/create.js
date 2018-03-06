@@ -15,18 +15,18 @@ export default class SecretCreate extends Component {
             secrets: [
                 {id: 1, key: "newSecretName", value: "newSecretValue", type: "field"}
             ]
-        };
+        }
 
-        this.handleAddNewSecretRow = this.handleAddNewSecretRow.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-        this.handleUpdateSecretInput = this.handleUpdateSecretInput.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleRemoveSecretRow = this.handleRemoveSecretRow.bind(this);
-        this.handleChangePath = this.handleChangePath.bind(this);
+        this.handleAddNewSecretRow = this.handleAddNewSecretRow.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
+        this.handleUpdateSecretInput = this.handleUpdateSecretInput.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleRemoveSecretRow = this.handleRemoveSecretRow.bind(this)
+        this.handleChangePath = this.handleChangePath.bind(this)
     }
 
     handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault()
 
         let path = this.props.params.path
         if (this.state.pathName.length > 1) {
@@ -84,7 +84,7 @@ export default class SecretCreate extends Component {
     }
 
     handleChangePath(event) {
-        this.setState({pathName: event.target.value});
+        this.setState({pathName: event.target.value})
     }
 
     render() {
