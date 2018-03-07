@@ -1,14 +1,17 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
+import RowDropdown from './row-dropdown'
 import AuthService from '../../../app/service/auth-service'
 import Navigation from '../../../app/utils/navigation'
 import BreadCrumb from '../../../app/utils/bread-crumbs'
-import SecretService from '../../service/secret-service';
+import SecretService from '../../service/secret-service'
 
 export default class SecretUpdate extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            path: this.props.params.path.split('.').join('/')
+            path: this.props.params.path.split('.').join('/'),
+            incrementedId: 0,
+            secrets: []
         }
 
         this.handleGetSecret = this.handleGetSecret.bind(this)
@@ -24,20 +27,39 @@ export default class SecretUpdate extends Component {
     }
 
     handleGetSecret(result) {
-        console.log(result)
+        let secrets = []
+        let id = 0
+        for (var propertyName in result.data) {
+            if (result.data.hasOwnProperty(propertyName)) {
+                let type = 'field'
+                if (result.data[propertyName].includes('\n')) {
+                    type = 'multiline'
+                }
+                secrets.push(
+                    {id: id, key: propertyName, value: result.data[propertyName], type: type}
+                )
+            }
+            id++
+        }
 
-        this.setState(result)
+        this.setState({secrets: secrets, incrementedId: id})
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        SecretService.update(this.handleCancel, this.state.path, this.state.data)
+        e.preventDefault()
+
+        let data = {}
+        for (let secret of this.state.secrets) {
+            data[secret.key] = secret.value
+        }
+
+        SecretService.update(this.handleCancel, this.state.path, data)
     }
 
-    handleAddNewSecretRow() {
-        let newData = this.state.data;
-        newData["newSecretRow"] = "newSecretValue"
-        this.setState({data: newData})
+    handleAddNewSecretRow(type) {
+        const id = this.state.incrementedId
+        this.setState({incrementedId: id + 1})
+        this.state.secrets.push({id: id, key: 'key', value: 'value', type: type})
     }
 
     handleCancel() {
@@ -45,25 +67,32 @@ export default class SecretUpdate extends Component {
         this.context.router.push({pathname: '/secret/list/' + folder})
     }
 
-    handleUpdateSecretInput(originalName, name, secret) {
-        let newData = {}
+    handleUpdateSecretInput(id, newKey, newValue) {
+        const secrets = this.state.secrets
+        for (let secret of secrets) {
+            if (secret.id === id) {
+                secret.key = newKey
+                secret.value = newValue
+            }
+        }
+        this.setState({secrets: secrets})
+    }
 
-        for (var propertyName in this.state.data) {
-            if (this.state.data.hasOwnProperty(propertyName)) {
-                if (propertyName === originalName) {
-                    newData[name] = secret
-                } else {
-                    newData[propertyName] = this.state.data[propertyName]
-                }
+    handleRemoveSecretRow(id) {
+        const i = this.getIndex(id)
+        const secrets = this.state.secrets
+        secrets.splice(i, 1)
+        this.setState({secrets: secrets})
+    }
+
+    getIndex(id) {
+        for (let i=0; i<this.state.secrets.length; i++) {
+            if (this.state.secrets[i].id === id) {
+                return i
             }
         }
 
-        this.setState({data: newData})
-    }
-
-    handleRemoveSecretRow(name) {
-        delete this.state.data[name]
-        this.forceUpdate()
+        return -1
     }
 
     handleBreadCrumb(path) {
@@ -72,30 +101,27 @@ export default class SecretUpdate extends Component {
 
     render() {
         let form = (<div>Loading...</div>)
+
         let rows = []
 
-        if (this.state.data) {
-            for (var propertyName in this.state.data) {
-                if (this.state.data.hasOwnProperty(propertyName)) {
-                    rows.push(
-                        <SecretUpdateRow key={propertyName + this.state.data[propertyName]} name={propertyName} secret={this.state.data[propertyName]} onUpdate={this.handleUpdateSecretInput} onRemove={this.handleRemoveSecretRow} />
-                    )
-                }
-            }
-
-            form = (
-                <form onSubmit={this.handleSubmit}>
-                    <fieldset>
-                        <div className="container">
-                            {rows}
-                            <p><a onClick={this.handleAddNewSecretRow}>Add New</a></p>
-                        </div>
-                        <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
-                        <input className="button-primary float-right" value="Save" type="submit" />
-                    </fieldset>
-                </form>
+        for (let value of this.state.secrets) {
+            rows.push(
+                <SecretUpdateRow key={value.id} id={value.id} name={value.key} secret={value.value} type={value.type} onUpdate={this.handleUpdateSecretInput} onRemove={this.handleRemoveSecretRow} />
             )
         }
+
+        form = (
+            <form onSubmit={this.handleSubmit}>
+                <fieldset>
+                    <div className="container">
+                        {rows}
+                        <RowDropdown onAdd={this.handleAddNewSecretRow} />
+                    </div>
+                    <button className="button button-outline" onClick={this.handleCancel}>Cancel</button>
+                    <input className="button-primary float-right" value="Save" type="submit" />
+                </fieldset>
+            </form>
+        )
 
         return (
             <main className="wrapper">
@@ -113,43 +139,42 @@ export default class SecretUpdate extends Component {
 class SecretUpdateRow extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            originalName: this.props.name,
-            name: this.props.name,
-            secret: this.props.secret,
-            changed: false
-        };
         this.handleChangeName = this.handleChangeName.bind(this)
         this.handleChangeSecret = this.handleChangeSecret.bind(this)
-        this.handleOnBlur = this.handleOnBlur.bind(this)
         this.handleOnRemove = this.handleOnRemove.bind(this)
     }
 
     handleChangeName(event) {
-        this.setState({name: event.target.value});
+        this.props.onUpdate.call(null, this.props.id, event.target.value, this.props.secret)
     }
 
     handleChangeSecret(event) {
-        this.setState({secret: event.target.value});
-    }
-
-    handleOnBlur(event) {
-        this.props.onUpdate.call(null, this.state.originalName, this.state.name, this.state.secret)
+        this.props.onUpdate.call(null, this.props.id, this.props.name, event.target.value)
     }
 
     handleOnRemove(e) {
         e.preventDefault();
-        this.props.onRemove.call(null, this.state.originalName)
+        this.props.onRemove.call(null, this.props.id)
     }
 
     render() {
         return (
             <div className="row">
-                <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeName} placeholder="Secret Name" value={this.state.name} type="text" /></div>
-                <div className="column"><input onBlur={this.handleOnBlur} onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.state.secret} type="text" /></div>
+                <div className="column"><input onChange={this.handleChangeName} placeholder="Secret Name" value={this.props.name} type="text" /></div>
+                <div className="column">{this.getTextElement(this.props.type)}</div>
                 <div className="column"><a onClick={this.handleOnRemove}>remove</a></div>
             </div>
         )
+    }
+
+    getTextElement(type) {
+        if (this.props.type === 'json') {
+            return (<input onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.props.secret} type="text" />)
+        } else if (this.props.type === 'multiline') {
+            return (<textarea rows="4" cols="50" onChange={this.handleChangeSecret}>{this.props.secret}</textarea>)
+        } else {
+            return (<input onChange={this.handleChangeSecret} placeholder="Secret Value" value={this.props.secret} type="text" />)
+        }
     }
 }
 
