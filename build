@@ -5,7 +5,8 @@ mkdir -p target
 mkdir -p target/static
 
 echo "Compiling go binary"
-docker run --rm -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith golang:1.8 go get gopkg.in/yaml.v2 && CGO_ENABLED=0 GOOS=linux go build -v -a -ldflags '-extldflags "-static"' . && mv locksmith target/
+docker run --rm -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith golang:1.8 bash -c "go get gopkg.in/yaml.v2 && CGO_ENABLED=0 GOOS=linux go build -v -a -ldflags '-extldflags \"-static\"' ."
+mv locksmith target/
 
 echo "Building JavaScript components"
 docker run --rm -it -v "$PWD":/usr/src/locksmith -w /usr/src/locksmith/static node:9.3.0 bash -c "npm install && npm run build"
