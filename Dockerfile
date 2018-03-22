@@ -9,4 +9,5 @@ ENV SERVER_SECURE=false
 ENV SERVER_CERTIFACTE_PATH=
 ENV SERVER_PRIVATE_KEY_PATH=
 
-CMD /opt/locksmith/locksmith
+WORKDIR /opt/locksmith
+CMD locksmith
